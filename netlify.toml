@@ -1,0 +1,9 @@
+# Netlify deployment. Next.js is detected automatically (OpenNext adapter).
+[build]
+  command = "pnpm build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "24"
+  # Keep the preview hidden from search engines until the owner approves launch.
+  NEXT_PUBLIC_PROTOTYPE_MODE = "true"

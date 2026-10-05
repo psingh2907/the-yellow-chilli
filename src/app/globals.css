@@ -1,0 +1,180 @@
+@import "tailwindcss";
+
+/* ─── Design tokens ─────────────────────────────────────────────────────
+   From The Yellow Chilli's own brand site: a deep night-navy stage, a
+   saffron/marigold accent (the yellow chilli itself) and a red chilli for
+   heat. Cream and paper carry the light sections. */
+@theme {
+  --color-night: #0d1020;
+  --color-night-soft: #151a30;
+  --color-night-line: #262c48;
+  --color-saffron: #f4a521;
+  --color-saffron-light: #ffd27a;
+  --color-saffron-deep: #b06c00; /* saffron as text on light (AA) */
+  --color-chilli: #e0392b;
+  --color-chilli-deep: #a3221b;
+  --color-leaf: #3f8f4f;
+  --color-cream: #fbf3e4;
+  --color-paper: #f5e9d3;
+  --color-ink: #19130f;
+  --color-muted: #6b5d4f; /* secondary text on light */
+  --color-mist: #a7accb; /* secondary text on dark */
+  --color-whatsapp: #25d366;
+
+  --ease-chilli: cubic-bezier(0.06, 0.72, 0.18, 1);
+  --ease-simmer: cubic-bezier(0.5, 0, 0.18, 1);
+}
+
+@theme inline {
+  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-mukta), ui-sans-serif, system-ui, sans-serif;
+  /* Devanagari display: चुनना · पकाना · परोसना */
+  --font-deva: var(--font-yatra), var(--font-mukta), serif;
+}
+
+@layer base {
+  html {
+    background: var(--color-night);
+    color-scheme: dark;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background: var(--color-night);
+    color: var(--color-cream);
+    font-family: var(--font-sans);
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background: var(--color-saffron);
+    color: var(--color-night);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-saffron);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* The custom cursor replaces the pointer on fine pointers only. */
+  @media (hover: hover) and (pointer: fine) {
+    html.has-cursor,
+    html.has-cursor a,
+    html.has-cursor button {
+      cursor: none;
+    }
+  }
+}
+
+@utility container-x {
+  width: 100%;
+  max-width: 90rem;
+  margin-inline: auto;
+  padding-inline: 1rem;
+  @media (width >= 40rem) {
+    padding-inline: 2rem;
+  }
+  @media (width >= 64rem) {
+    padding-inline: 3rem;
+  }
+}
+
+/* Small uppercase label, e.g. "SIGNATURE · 01". */
+@utility label {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* Huge display type that scales with the viewport. */
+@utility display-xl {
+  font-family: var(--font-display);
+  font-weight: 800;
+  /* Bounded by height too, so short windows (laptops with toolbars) still fit. */
+  font-size: clamp(3rem, min(11vw, 17svh), 11rem);
+  line-height: 0.88;
+  letter-spacing: -0.04em;
+}
+
+@utility display-lg {
+  font-family: var(--font-display);
+  font-weight: 750;
+  font-size: clamp(2.2rem, min(6.5vw, 11svh), 6rem);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+}
+
+/* Film grain over dark sections, drawn with an inline SVG noise filter. */
+@utility grain {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    /* No blend mode: blending forces the whole section to be re-composited
+       every time anything under it animates. A faint plain layer of noise
+       on its own compositor layer costs nothing while scrolling. */
+    opacity: 0.045;
+    transform: translateZ(0);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  /* Touch screens: fine noise shimmers ("glitters") while the page scrolls. */
+  @media (hover: none) {
+    &::after {
+      display: none;
+    }
+  }
+}
+
+/* SplitText masks: lines clip their contents so words rise from below. */
+.split-mask {
+  overflow: clip;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+
+/* First-visit loader: the page underneath stays put until it lifts. */
+html.is-loading body {
+  overflow: hidden;
+}
+html:not(.is-loading):not(.loader-revealing) #loader {
+  display: none;
+}
+/* The header's wordmark waits for the loader's one to fly into its place. */
+html.is-loading [data-nav-mark],
+html.loader-revealing [data-nav-mark] {
+  opacity: 0;
+}
+
+/* Hide scrollbars on draggable rails. */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
