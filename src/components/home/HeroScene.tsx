@@ -114,7 +114,8 @@ export function HeroScene() {
         .to(rig.position, { y: 2.6, ease: "none" }, 0)
         .to(camera.position, { z: BASE_Z + 2, ease: "none" }, 0);
 
-      el.style.opacity = "1";
+      // A context lost during setup would show as a white sheet; keep the canvas hidden.
+      if (!renderer.getContext().isContextLost()) el.style.opacity = "1";
       cleanup = () => {
         stopIntro();
         ro.disconnect();

@@ -130,34 +130,39 @@ export function StoryFilm() {
     );
   }
 
+  // The wrapper div belongs to React; ScrollTrigger's pin moves the section
+  // into a pin-spacer inside it. Without it, leaving the page made React try
+  // to remove the section from its old parent and the route crashed.
   return (
-    <section ref={root} aria-label="One Plate: a scroll film in five chapters" className="relative h-svh overflow-hidden bg-night text-cream">
-      <canvas ref={canvas} aria-hidden="true" className="absolute inset-0 h-full w-full opacity-0 transition-opacity duration-1000" />
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_45%,rgba(13,16,32,0.85)_100%)]" />
-      {CHAPTERS.map((c, i) => (
-        <div key={c.time} data-film-caption className={cn("absolute inset-x-0 bottom-0 pb-24 lg:pb-16", mode === null && "invisible")}>
-          <div className="container-x">
-            <p className="label text-saffron">
-              0{i + 1} / 0{CHAPTERS.length} · {c.time}
-            </p>
-            <h2 className="mt-2 font-display text-[clamp(2.4rem,7vw,6rem)] leading-[0.95] font-extrabold tracking-tight">{c.title}</h2>
-            <p className="mt-3 max-w-lg text-lg text-cream/85">{c.text}</p>
-            {i === CHAPTERS.length - 1 && (
-              <div className="mt-6 flex flex-wrap gap-3">
-                <Button href="/menu" icon="book">
-                  See the menu
-                </Button>
-                <Button href="/visit" variant="outline" icon="pin" className="text-cream">
-                  Find us
-                </Button>
-              </div>
-            )}
+    <div>
+      <section ref={root} aria-label="One Plate: a scroll film in five chapters" className="relative h-svh overflow-hidden bg-night text-cream">
+        <canvas ref={canvas} aria-hidden="true" className="absolute inset-0 h-full w-full opacity-0 transition-opacity duration-1000" />
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_45%,rgba(13,16,32,0.85)_100%)]" />
+        {CHAPTERS.map((c, i) => (
+          <div key={c.time} data-film-caption className={cn("absolute inset-x-0 bottom-0 pb-24 lg:pb-16", mode === null && "invisible")}>
+            <div className="container-x">
+              <p className="label text-saffron">
+                0{i + 1} / 0{CHAPTERS.length} · {c.time}
+              </p>
+              <h2 className="mt-2 font-display text-[clamp(2.4rem,7vw,6rem)] leading-[0.95] font-extrabold tracking-tight">{c.title}</h2>
+              <p className="mt-3 max-w-lg text-lg text-cream/85">{c.text}</p>
+              {i === CHAPTERS.length - 1 && (
+                <div className="mt-6 flex flex-wrap gap-3">
+                  <Button href="/menu" icon="book">
+                    See the menu
+                  </Button>
+                  <Button href="/visit" variant="outline" icon="pin" className="text-cream">
+                    Find us
+                  </Button>
+                </div>
+              )}
+            </div>
           </div>
+        ))}
+        <div className="absolute inset-x-0 bottom-0 h-1 bg-night-line">
+          <div data-film-progress className="h-full origin-left bg-saffron" />
         </div>
-      ))}
-      <div className="absolute inset-x-0 bottom-0 h-1 bg-night-line">
-        <div data-film-progress className="h-full origin-left bg-saffron" />
-      </div>
-    </section>
+      </section>
+    </div>
   );
 }

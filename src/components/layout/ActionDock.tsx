@@ -11,23 +11,15 @@ import { formatTime, getOpenStatus } from "@/lib/hours";
 import { platter, platterCount, usePlatter, usePlatterOpen } from "@/components/menu/platter";
 import { business } from "@/data/business";
 
-interface QuickAction {
+interface Action {
   label: string;
+  sub?: string;
   icon: IconName;
   href: string;
   external?: boolean;
-  /** Route that counts as "here" for the active state. */
-  route?: string;
-  tone?: "whatsapp";
+  tone: "saffron" | "whatsapp" | "plain";
 }
 
-const QUICK: QuickAction[] = [
-  { label: "Menu", icon: "book", href: "/menu", route: "/menu" },
-  { label: "Map", icon: "pin", href: directionsUrl, external: true },
-  { label: "WhatsApp", icon: "whatsapp", href: whatsappHref("Hi! I'd like to book a table at The Yellow Chilli, Satna."), external: true, tone: "whatsapp" },
-];
-
-/** "Open · till 11:30 pm" / "Opens 11:30 am" — short enough for the call button. */
 function useShortStatus(): string {
   const [label, setLabel] = useState(`Open till ${formatTime(business.hours.closes)}`);
   useEffect(() => {
@@ -43,96 +35,185 @@ function useShortStatus(): string {
 }
 
 /**
- * Phone-only bottom dock: three round quick actions (Menu, Map, WhatsApp)
- * and one wide saffron "Call to book" button with the live open status.
- * On the menu page the first button becomes the Thali (platter) with a live
- * dish count; dishes fly into it and it opens the platter sheet.
- * The phone icon gives a small ring every few seconds (CustomWiggle), and
- * every button dips when pressed. It never moves while scrolling.
+ * Phone-only speed dial. At rest it is one 52px saffron button in the bottom
+ * right corner (a quarter of the old dock's footprint). Tapping it dims the
+ * page and fans the actions upward as labelled pills (GSAP timeline, staggered,
+ * "chilli" ease); the phone icon morphs into a cross. After a few seconds of
+ * scrolling down the button shrinks to a smaller dot, and grows back on
+ * scroll up. On /menu the Thali button sits beside it with the live dish count.
  */
 export function ActionDock() {
   const pathname = usePathname();
   const status = useShortStatus();
-  const ring = useRef<HTMLSpanElement>(null);
   const lines = usePlatter();
   const thaliOpen = usePlatterOpen();
   const onMenu = pathname === "/menu";
   const count = platterCount(lines);
+  const [open, setOpen] = useState(false);
 
+  const root = useRef<HTMLDivElement>(null);
+  const scrim = useRef<HTMLDivElement>(null);
+  const fab = useRef<HTMLButtonElement>(null);
+  const phoneIcon = useRef<HTMLSpanElement>(null);
+  const crossIcon = useRef<HTMLSpanElement>(null);
+  const tl = useRef<gsap.core.Timeline | null>(null);
+
+  const actions: Action[] = [
+    { label: "Call to book", sub: status, icon: "phone", href: phoneHref, tone: "saffron" },
+    { label: "WhatsApp", sub: "Reserve a table", icon: "whatsapp", href: whatsappHref("Hi! I'd like to book a table at The Yellow Chilli, Satna."), external: true, tone: "whatsapp" },
+    { label: "Directions", sub: "NH-75, Panna Naka", icon: "pin", href: directionsUrl, external: true, tone: "plain" },
+    { label: "Menu", sub: "About 240 dishes", icon: "book", href: "/menu", tone: "plain" },
+  ];
+
+  // Open / close timeline.
+  useGSAP(
+    () => {
+      const items = gsap.utils.toArray<HTMLElement>("[data-dial-item]", root.current);
+      if (!items.length || !scrim.current || !phoneIcon.current || !crossIcon.current) return;
+      const reduced = prefersReducedMotion();
+      gsap.set(items, { autoAlpha: 0, y: 24, scale: 0.8, transformOrigin: "100% 100%" });
+      gsap.set(crossIcon.current, { autoAlpha: 0, rotation: -90 });
+      tl.current = gsap
+        .timeline({ paused: true, defaults: { ease: "chilli", duration: reduced ? 0.01 : 0.5 } })
+        .to(scrim.current, { autoAlpha: 1, duration: reduced ? 0.01 : 0.3, ease: "power1.out" }, 0)
+        .to(phoneIcon.current, { autoAlpha: 0, rotation: 90, duration: reduced ? 0.01 : 0.25 }, 0)
+        .to(crossIcon.current, { autoAlpha: 1, rotation: 0, duration: reduced ? 0.01 : 0.35 }, 0.05)
+        .to(items, { autoAlpha: 1, y: 0, scale: 1, stagger: reduced ? 0 : { each: 0.06, from: "end" } }, 0.05);
+    },
+    { scope: root },
+  );
+
+  useEffect(() => {
+    const t = tl.current;
+    if (!t) return;
+    if (open) {
+      t.timeScale(1).reversed(false).play();
+    } else if (t.progress() > 0) {
+      t.timeScale(1).reverse();
+    }
+  }, [open]);
+
+  // Close on route change / Escape.
+  const [lastPath, setLastPath] = useState(pathname);
+  if (lastPath !== pathname) {
+    setLastPath(pathname);
+    setOpen(false);
+  }
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+
+  // Shrink while scrolling down, grow on scroll up (never while open).
+  useEffect(() => {
+    if (prefersReducedMotion() || !root.current) return;
+    let last = window.scrollY;
+    const size = gsap.quickTo(fab.current, "scale", { duration: 0.4, ease: "power3" });
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (!open) size(y > last + 4 && y > 200 ? 0.78 : 1);
+      last = y;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [open]);
+
+  // A tiny periodic ring on the phone icon while closed.
   useGSAP(() => {
-    if (!ring.current || prefersReducedMotion()) return;
-    gsap.to(ring.current, { rotation: 14, duration: 0.9, ease: "heat", repeat: -1, repeatDelay: 4.5, delay: 3 });
+    if (!phoneIcon.current || prefersReducedMotion()) return;
+    gsap.to(phoneIcon.current, { x: 1.5, duration: 0.9, ease: "heat", repeat: -1, repeatDelay: 5, delay: 3 });
   });
 
   return (
-    <nav
-      aria-label="Quick actions"
-      className="fixed inset-x-3 bottom-[max(0.75rem,env(safe-area-inset-bottom))] z-[46] lg:hidden"
-    >
-      <div className="flex items-stretch gap-1.5 rounded-[1.6rem] bg-night p-2 shadow-[0_18px_40px_-14px_rgba(0,0,0,0.75)] ring-1 ring-cream/10">
-        {onMenu && (
-          <button
-            type="button"
-            data-thali-target
-            onClick={() => platter.setOpen(!thaliOpen)}
-            aria-expanded={thaliOpen}
-            aria-label={`Your thali: ${count} ${count === 1 ? "dish" : "dishes"}`}
-            className="flex w-[3.25rem] shrink-0 flex-col items-center justify-center gap-1.5 rounded-2xl py-1.5 transition-transform duration-150 active:scale-90"
-          >
-            <span className={cn("relative flex h-9 w-9 items-center justify-center rounded-full transition-colors", thaliOpen ? "bg-cream text-night" : "bg-saffron text-night")}>
-              <Icon name="plate" className="h-[1.15rem] w-[1.15rem]" />
+    <div ref={root} className="lg:hidden">
+      <div
+        ref={scrim}
+        onClick={() => setOpen(false)}
+        aria-hidden="true"
+        className="invisible fixed inset-0 z-[45] bg-night/70 opacity-0 backdrop-blur-sm"
+      />
+      <nav
+        aria-label="Quick actions"
+        className="pointer-events-none fixed right-4 bottom-[max(1rem,env(safe-area-inset-bottom))] z-[46] flex flex-col items-end gap-3"
+      >
+        <ul className={cn("flex flex-col items-end gap-2.5", !open && "pointer-events-none")}>
+          {actions.map((a) => {
+            const body = (
+              <>
+                <span className="flex min-w-0 flex-col text-right">
+                  <span className="font-display text-[0.95rem] leading-tight font-extrabold tracking-tight text-cream">{a.label}</span>
+                  {a.sub && <span className="text-[0.68rem] leading-tight font-semibold text-mist">{a.sub}</span>}
+                </span>
+                <span
+                  className={cn(
+                    "flex h-11 w-11 shrink-0 items-center justify-center rounded-full",
+                    a.tone === "saffron" && "bg-saffron text-night",
+                    a.tone === "whatsapp" && "bg-whatsapp text-night",
+                    a.tone === "plain" && "bg-cream text-night",
+                  )}
+                >
+                  <Icon name={a.icon} className="h-5 w-5" />
+                </span>
+              </>
+            );
+            const cls = "pointer-events-auto flex items-center gap-3 rounded-full bg-night py-1.5 pr-1.5 pl-5 ring-1 ring-cream/10 shadow-[0_12px_30px_-10px_rgba(0,0,0,0.8)] active:scale-95 transition-transform";
+            return (
+              <li key={a.label} data-dial-item className={a.href === "/menu" && onMenu ? "hidden" : undefined}>
+                {a.external ? (
+                  <a href={a.href} target="_blank" rel="noopener noreferrer" tabIndex={open ? 0 : -1} className={cls}>
+                    {body}
+                  </a>
+                ) : (
+                  <Link href={a.href} tabIndex={open ? 0 : -1} className={cls}>
+                    {body}
+                  </Link>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+
+        <div className="pointer-events-auto flex items-center gap-3">
+          {onMenu && (
+            <button
+              type="button"
+              data-thali-target
+              onClick={() => platter.setOpen(!thaliOpen)}
+              aria-expanded={thaliOpen}
+              aria-label={`Your thali: ${count} ${count === 1 ? "dish" : "dishes"}`}
+              className={cn(
+                "relative flex h-[3.25rem] w-[3.25rem] items-center justify-center rounded-full ring-1 ring-cream/10 shadow-[0_12px_30px_-10px_rgba(0,0,0,0.8)] transition-all duration-150 active:scale-90",
+                thaliOpen ? "bg-cream text-night" : "bg-night text-saffron",
+              )}
+            >
+              <Icon name="plate" className="h-6 w-6" />
               {count > 0 && (
-                <span className="absolute -top-1 -right-1.5 flex h-4.5 min-w-4.5 items-center justify-center rounded-full bg-chilli px-1 text-[0.6rem] font-bold text-cream tabular-nums">
+                <span className="absolute -top-1 -right-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-chilli px-1 text-[0.65rem] font-bold text-cream tabular-nums">
                   {count}
                 </span>
               )}
+            </button>
+          )}
+          <button
+            ref={fab}
+            type="button"
+            onClick={() => setOpen((o) => !o)}
+            aria-expanded={open}
+            aria-label={open ? "Close quick actions" : "Book a table: call, WhatsApp, directions"}
+            className="relative flex h-[3.25rem] w-[3.25rem] items-center justify-center rounded-full bg-saffron text-night shadow-[0_14px_30px_-8px_rgba(244,165,33,0.55)] ring-1 ring-night/20"
+          >
+            <span ref={phoneIcon} className="absolute inline-flex">
+              <Icon name="phone" className="h-6 w-6" />
             </span>
-            <span className="text-[0.62rem] leading-none font-semibold tracking-wide text-saffron">Thali</span>
+            <span ref={crossIcon} className="absolute inline-flex">
+              <Icon name="close" className="h-5 w-5" />
+            </span>
+            <span className="absolute top-0.5 right-0.5 h-2.5 w-2.5 rounded-full bg-leaf ring-2 ring-saffron" aria-hidden="true" />
           </button>
-        )}
-        {QUICK.filter((a) => !(onMenu && a.route === "/menu")).map((a) => {
-          const here = a.route === pathname;
-          const inner = (
-            <>
-              <span
-                className={cn(
-                  "flex h-9 w-9 items-center justify-center rounded-full transition-colors",
-                  a.tone === "whatsapp" ? "bg-whatsapp text-night" : here ? "bg-saffron text-night" : "bg-night-soft text-cream",
-                )}
-              >
-                <Icon name={a.icon} className="h-[1.15rem] w-[1.15rem]" />
-              </span>
-              <span className={cn("text-[0.62rem] leading-none font-semibold tracking-wide", here ? "text-saffron" : "text-mist")}>{a.label}</span>
-            </>
-          );
-          const cls =
-            "flex w-[3.25rem] shrink-0 flex-col items-center justify-center gap-1.5 rounded-2xl py-1.5 transition-transform duration-150 active:scale-90";
-          return a.external ? (
-            <a key={a.label} href={a.href} target="_blank" rel="noopener noreferrer" className={cls}>
-              {inner}
-            </a>
-          ) : (
-            <Link key={a.label} href={a.href} aria-current={here ? "page" : undefined} className={cls}>
-              {inner}
-            </Link>
-          );
-        })}
-
-        <a
-          href={phoneHref}
-          className="flex min-w-0 flex-1 items-center gap-2.5 rounded-[1.2rem] bg-saffron pr-2 pl-2.5 text-night transition-transform duration-150 active:scale-[0.97]"
-        >
-          <span className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-night text-saffron">
-            <span ref={ring} className="inline-flex">
-              <Icon name="phone" className="h-5 w-5" />
-            </span>
-          </span>
-          <span className="flex min-w-0 flex-col">
-            <span className="truncate font-display text-[0.95rem] leading-tight font-extrabold tracking-tight">Call to book</span>
-            <span className="truncate text-[0.68rem] leading-tight font-semibold text-night/70">{status}</span>
-          </span>
-        </a>
-      </div>
-    </nav>
+        </div>
+      </nav>
+    </div>
   );
 }

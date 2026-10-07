@@ -52,9 +52,18 @@ export async function createStage(canvas: HTMLCanvasElement, { fov = 35, alpha =
   // 1.5× is visually indistinguishable on these soft, glossy scenes and
   // renders ~25% fewer pixels than 1.75× (a full-screen hero on a Retina laptop).
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.25 : 1.5));
+  renderer.setClearColor(0x000000, 0);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.05;
+
+  // A lost GPU context paints the canvas opaque white; hide it so the
+  // section's own dark background shows instead.
+  const onLost = (e: Event) => {
+    e.preventDefault();
+    canvas.style.opacity = "0";
+  };
+  canvas.addEventListener("webglcontextlost", onLost);
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(fov, 1, 0.1, 100);
@@ -109,6 +118,7 @@ export async function createStage(canvas: HTMLCanvasElement, { fov = 35, alpha =
     },
     dispose: () => {
       gsap.ticker.remove(tick);
+      canvas.removeEventListener("webglcontextlost", onLost);
       ro.disconnect();
       io.disconnect();
       scene.traverse((obj) => {
@@ -118,10 +128,15 @@ export async function createStage(canvas: HTMLCanvasElement, { fov = 35, alpha =
         (Array.isArray(mat) ? mat : mat ? [mat] : []).forEach((m) => m.dispose());
       });
       renderer.dispose();
-      // Hand the GPU context back now rather than whenever the browser gets
+      // Hand the GPU context back rather than waiting for the browser to get
       // round to it: navigating away and back would otherwise stack up live
       // WebGL contexts (and graphics memory) on phones and busy browsers.
-      renderer.forceContextLoss();
+      // Only when the canvas has really left the page: React Strict Mode
+      // (dev) re-runs effects on the SAME canvas, and a context we force-lost
+      // can never be revived, which left the hero blank.
+      setTimeout(() => {
+        if (!canvas.isConnected) renderer.forceContextLoss();
+      }, 0);
     },
   };
 }
