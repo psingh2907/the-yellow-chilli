@@ -1,7 +1,7 @@
 /** Fired on window when the first-visit loader has finished revealing the page. */
-export const INTRO_DONE_EVENT = "tyc:intro-done";
+export const INTRO_DONE_EVENT = "vrj:intro-done";
 
-export const INTRO_STORAGE_KEY = "tyc-intro";
+export const INTRO_STORAGE_KEY = "vrj-intro";
 
 /** True while the first-visit loader covers the page. */
 export function isIntroRunning(): boolean {

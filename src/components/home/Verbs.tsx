@@ -3,46 +3,47 @@
 import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
 import { useRef } from "react";
 import { DishArt } from "@/components/ui/DishArt";
+import { RecordArt } from "@/components/ui/RecordArt";
 import { gsap, playWhileVisible, SplitText, useGSAP } from "@/lib/gsap";
 
 gsap.registerPlugin(DrawSVGPlugin);
 
 const CHAPTERS = [
   {
-    deva: "चुनना",
-    latin: "Chunna",
-    english: "Choose",
-    poem: ["Whole spices, picked by hand.", "A pinch of hing.", "Nothing that doesn't belong."],
-    body: "Every Yellow Chilli dish began as a recipe Master Chef Sanjeev Kapoor found on the road: a dhaba in Punjab, a Nawab's kitchen in Lucknow, a home in Kashmir. The Satna kitchen cooks from those recipes.",
-    dish: { kind: "curry" as const, tone: "#c9581f", seed: 3 },
-    bg: "#0d1020",
+    deva: "खाओ",
+    latin: "Khao",
+    english: "Eat",
+    poem: ["Paneer off the tandoor.", "Dal on a slow flame.", "Two hundred dishes, all veg."],
+    body: "From a ₹199 thali at lunch to sizzlers, Chinese, dosas and the VRJ specials at night: one long pure-veg menu, cooked to order in the Veerji's kitchen.",
+    art: { kind: "dish" as const, spec: { kind: "thali" as const, tone: "#2f9e57", seed: 3 } },
+    bg: "#140a18",
   },
   {
-    deva: "पकाना",
-    latin: "Pakana",
-    english: "Cook",
-    poem: ["The tandoor at full heat.", "The dal on a slow flame.", "The biryani sealed, and left alone."],
-    body: "Some things can't be rushed: black dal that simmers for hours, biryani cooked on dum under a dough seal, kebabs that wait for the charcoal to be just right.",
-    dish: { kind: "dal" as const, tone: "#4a2416", seed: 5 },
-    bg: "#3a0f0b",
+    deva: "गाओ",
+    latin: "Gao",
+    english: "Sing",
+    poem: ["The lights go low.", "Veerji picks up the mic.", "And the next song is yours."],
+    body: "Live music is what Satna talks about most. Adityaveer Singh, the Veerji in Veerji's, sings for the room, and takes requests for birthdays and anniversaries.",
+    art: { kind: "record" as const },
+    bg: "#2b0d22",
   },
   {
-    deva: "परोसना",
-    latin: "Parosna",
-    english: "Serve",
-    poem: ["A family table.", "A birthday. A banquet.", "Then, Gulab-e-Gulkand."],
-    body: "Dine in on NH-75 with free parking at the door, book the banquet hall for a celebration, or order to your home across Satna.",
-    dish: { kind: "dessert" as const, tone: "#f3e6c8", seed: 9 },
-    bg: "#0f1a14",
+    deva: "मनाओ",
+    latin: "Manao",
+    english: "Celebrate",
+    poem: ["Balloons on the table.", "A cake, a candle, a dedication.", "Then one more song."],
+    body: "Birthdays, anniversaries, kitty parties and baby showers: book a private room or the whole floor, and we'll set the music to your occasion.",
+    art: { kind: "dish" as const, spec: { kind: "cake" as const, tone: "#7a2c14", seed: 9 } },
+    bg: "#24160a",
   },
 ];
 
 /**
- * Three chapters, one verb each (after Millemann Wines' "Choisir · Maîtriser
- * · Partager"). The section pins; scrolling plays one chapter after another:
- * the Latin letters flip up one by one, the Devanagari word slides in, the
- * poem's lines rise out of masks, steam draws itself over the dish, and the
- * background changes colour (night → ember → leaf).
+ * Three chapters, one verb each: खाओ · गाओ · मनाओ (eat · sing · celebrate).
+ * The section pins; scrolling plays one chapter after another: the Latin
+ * letters flip up one by one, the Devanagari word slides in, the poem's
+ * lines rise out of masks, steam (or sound) draws itself over the art, and
+ * the background changes colour (plum → club → candlelight).
  */
 export function Verbs() {
   const root = useRef<HTMLElement>(null);
@@ -61,7 +62,7 @@ export function Verbs() {
           gsap.set(chapters.slice(1), { autoAlpha: 0 });
 
           const tl = gsap.timeline({
-            defaults: { ease: "chilli" },
+            defaults: { ease: "groove" },
             scrollTrigger: { trigger: root.current, start: "top top", end: `+=${chapters.length * 110}%`, pin: true, anticipatePin: 1, scrub: 0.8 },
           });
 
@@ -96,7 +97,7 @@ export function Verbs() {
   );
 
   return (
-    <section ref={root} aria-label="How we cook" className="grain relative min-h-svh overflow-hidden bg-night text-cream">
+    <section ref={root} aria-label="Eat, sing, celebrate" className="grain relative min-h-svh overflow-hidden bg-night text-cream">
       {CHAPTERS.slice(1).map((c, k) => (
         <div key={c.bg} data-bg={k + 1} aria-hidden="true" className="absolute inset-0 opacity-0 will-change-[opacity]" style={{ backgroundColor: c.bg }} />
       ))}
@@ -107,16 +108,16 @@ export function Verbs() {
             data-chapter
             className="container-x grid min-h-svh grid-cols-1 content-center items-center gap-8 py-24 motion-safe:absolute motion-safe:inset-0 lg:grid-cols-[auto_1fr_0.9fr] lg:gap-14"
           >
-            {/* The vertical letter stack (C · H · U · N · N · A). */}
+            {/* The vertical letter stack (K · H · A · O). */}
             <p
               data-latin
               aria-label={c.latin}
-              className="hidden font-display text-[clamp(2rem,4.4vw,3.6rem)] leading-[0.92] font-extrabold text-saffron uppercase [perspective:600px] lg:flex lg:flex-col"
+              className="hidden font-display text-[clamp(2rem,4.4vw,3.6rem)] leading-[0.92] font-extrabold text-gold uppercase [perspective:600px] lg:flex lg:flex-col"
             >
               {c.latin}
             </p>
             <div>
-              <p className="label text-saffron">
+              <p className="label text-gold">
                 0{i + 1} · {c.english}
               </p>
               <h2 data-deva lang="hi" className="mt-3 font-deva text-[clamp(4rem,13vw,10rem)] leading-[1.05] text-cream">
@@ -141,7 +142,7 @@ export function Verbs() {
                     data-steam
                     d={`M${x},118 C${x - 22},92 ${x + 22},70 ${x},46 C${x - 20},26 ${x + 16},12 ${x + 4 * (k - 1)},0`}
                     fill="none"
-                    stroke="#fbf3e4"
+                    stroke="#fbf3e8"
                     strokeOpacity="0.35"
                     strokeWidth="5"
                     strokeLinecap="round"
@@ -149,7 +150,7 @@ export function Verbs() {
                 ))}
               </svg>
               <div data-dish className="will-change-transform">
-                <DishArt spec={c.dish} className="w-full" />
+                {c.art.kind === "record" ? <RecordArt className="w-full" /> : <DishArt spec={c.art.spec} className="w-full" />}
               </div>
             </div>
           </article>

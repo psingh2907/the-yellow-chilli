@@ -10,15 +10,16 @@ import { gsap, prefersReducedMotion, ScrollTrigger, useGSAP } from "@/lib/gsap";
 
 /** What guests mention most in their Google reviews (our summary, in our words). */
 const THEMES = [
-  "Classy enough for a celebration",
-  "The Lalla Mussa Dal, again and again",
-  "A banquet for 400, handled well",
-  "Veg and non-veg, both done properly",
-  "Clean, calm and family-friendly",
-  "Gulab-e-Gulkand to finish",
-  "The tandoori platters",
-  "The big screen on match nights",
-];
+  "Live music by Veerji himself",
+  "A song for every birthday",
+  "The best party place in Satna",
+  "A warm, welcoming host",
+  "Cozy, beautiful decor",
+  "Polite, friendly staff",
+  "Generous portions, fair prices",
+  "Great cold coffee",
+  "Nobody rushes you out",
+]
 
 /**
  * An endless marquee of review themes. It runs on its own, speeds up with
@@ -103,25 +104,25 @@ export function Voices() {
     <section ref={root} aria-labelledby="voices-title" className="overflow-hidden bg-paper py-24 text-ink md:py-28">
       <div className="container-x flex flex-col justify-between gap-8 md:flex-row md:items-end">
         <div>
-          <p className="label text-saffron-deep">What guests mention most</p>
+          <p className="label text-gold-deep">What guests mention most</p>
           <h2 id="voices-title" data-split className="display-lg mt-3 max-w-[14ch]">
-            Satna has been talking.
+            Satna keeps singing along.
           </h2>
         </div>
         <div className="flex gap-8">
           <a href={placeUrl} target="_blank" rel="noopener noreferrer" className="group">
             <p className="font-display text-5xl font-extrabold">
               {business.ratings.google.score}
-              <Icon name="star" className="ml-1 inline h-8 w-8 text-saffron" />
+              <Icon name="star" className="ml-1 inline h-8 w-8 text-gold" />
             </p>
             <p className="text-sm text-muted group-hover:text-ink">{business.ratings.google.count.toLocaleString("en-IN")} Google reviews</p>
           </a>
-          <a href={business.zomatoUrl} target="_blank" rel="noopener noreferrer" className="group">
+          <a href={business.justdialUrl} target="_blank" rel="noopener noreferrer" className="group">
             <p className="font-display text-5xl font-extrabold">
-              {business.ratings.zomatoDelivery.score.toFixed(1)}
-              <Icon name="star" className="ml-1 inline h-8 w-8 text-chilli" />
+              {business.ratings.justdial.score}
+              <Icon name="star" className="ml-1 inline h-8 w-8 text-rose" />
             </p>
-            <p className="text-sm text-muted group-hover:text-ink">{business.ratings.zomatoDelivery.count} Zomato delivery ratings</p>
+            <p className="text-sm text-muted group-hover:text-ink">{business.ratings.justdial.count} JustDial ratings</p>
           </a>
         </div>
       </div>
@@ -134,13 +135,13 @@ export function Voices() {
               aria-hidden={i >= THEMES.length}
               className="flex shrink-0 items-center gap-4 rounded-full border border-ink/15 bg-cream px-8 py-5 font-display text-[clamp(1.3rem,2.6vw,2.2rem)] font-semibold whitespace-nowrap select-none"
             >
-              <span className="h-3 w-3 rounded-full bg-saffron" />
+              <span className="text-gold" aria-hidden="true">♪</span>
               {t}
             </p>
           ))}
         </div>
       </div>
-      <p className="container-x mt-6 text-xs text-muted">Themes summarised from public Google reviews, in our own words.</p>
+      <p className="container-x mt-6 text-xs text-muted">Themes summarised from public Google and JustDial reviews, in our own words. &ldquo;Live music&rdquo; comes up in {business.reviewMentions.liveMusic} Google reviews alone.</p>
     </section>
   );
 }

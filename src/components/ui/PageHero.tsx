@@ -17,9 +17,9 @@ export function PageHero({
 }) {
   return (
     <section className={cn("grain relative overflow-hidden bg-night pt-40 pb-16 text-cream md:pt-48 md:pb-24", className)}>
-      <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(50%_60%_at_85%_10%,rgba(244,165,33,0.16),transparent_70%)]" />
+      <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(50%_60%_at_85%_10%,rgba(242,181,68,0.16),transparent_70%)]" />
       <div className="relative container-x">
-        <p className="label text-saffron" data-reveal>
+        <p className="label text-gold" data-reveal>
           {label}
         </p>
         <h1 data-split className="display-xl mt-4 max-w-[14ch]">

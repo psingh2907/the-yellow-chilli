@@ -1,65 +1,89 @@
 /**
  * The restaurant's facts, gathered in October 2026 from Google Maps,
- * Zomato, TripAdvisor, Justdial and theyellowchilli.com/outlets.html.
+ * JustDial, Zomato, Instagram and Wanderboat (see docs/research.md).
  * Anything not confirmed by the owner is listed in docs/owner-checklist.md.
  */
 export const business = {
-  name: "The Yellow Chilli",
-  nameHi: "द येलो चिली",
+  name: "Veerji's",
+  fullName: "Veerji's Cafe Club & Restaurant",
+  nameHi: "वीरजी'स",
   branch: "Satna",
-  /** The brand line used across the chain. */
-  tagline: "Redefining Indian food",
+  /** Our line for the site: the food, the music, the room. */
+  tagline: "Food that sings",
   description:
-    "The Yellow Chilli, Satna: Master Chef Sanjeev Kapoor's restaurant for Mughlai, Punjabi and frontier cooking, with banquets for large gatherings. NH-75, Panna Naka Road, near Peptech City.",
+    "Veerji's Cafe Club & Restaurant, Satna: a pure-veg kitchen with live music by Veerji himself, thalis, sizzlers, tandoor and Chinese, and a party floor for birthdays and anniversaries. First floor, R.S Tower, Railway Colony.",
+
+  /** Adityaveer Singh, "Veerji": the host, and the voice on the mic. */
+  owner: { name: "Adityaveer Singh", known: "Veerji" },
 
   address: {
-    street: "NH-75, Panna Naka Road",
-    landmark: "Near Peptech City",
+    street: "First floor, R.S Tower",
+    landmark: "Railway Colony, near Circuit House Chowk",
     locality: "Satna",
     state: "Madhya Pradesh",
     postalCode: "485001",
   },
-  geo: { lat: 24.576493, lng: 80.783028 },
-  plusCode: "HQGM+H6 Satna",
+  geo: { lat: 24.5740858, lng: 80.8326484 },
+  plusCode: "HRFM+J3 Satna",
 
   contact: {
-    /** Listed on Zomato and TripAdvisor. Other numbers are in the checklist. */
-    phone: "+91 93290 62819",
+    /** Google Maps and Instagram. Other numbers are in the owner checklist. */
+    phone: "+91 88188 88385",
     /** Assumed to be the same number until the owner confirms. */
-    whatsapp: "+91 93290 62819",
-    email: "tyc.satna@gmail.com",
+    whatsapp: "+91 88188 88385",
   },
 
-  /** Daily, India Standard Time (Google Maps). */
+  /** Daily, India Standard Time (Google Maps, JustDial, Wanderboat). */
   hours: {
     days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-    opens: "11:30",
-    closes: "23:30",
+    opens: "11:00",
+    closes: "23:00",
   },
 
   priceRange: { min: 200, max: 1000 },
 
   ratings: {
-    google: { score: 3.9, count: 1255 },
-    zomatoDelivery: { score: 4.0, count: 909 },
+    google: { score: 4.6, count: 1012 },
+    justdial: { score: 4.9, count: 993 },
   },
 
-  /** Distances for the "find us" section (approximate, by road). */
-  distances: { stationKm: 4.5 },
+  /** What Google's review topics count most often. */
+  reviewMentions: { liveMusic: 78, party: 64, birthday: 17 },
 
-  /** From the Google Maps place id 0x34b8b321b6a08bc7. */
-  googleCid: "3798983243066280903",
-  zomatoUrl: "https://www.zomato.com/satna/the-yellow-chilli-satna-locality/order",
-  facebookUrl: "https://www.facebook.com/p/The-Yellow-Chilli-Satna-100063960189040/",
+  /** By road, from Google Maps directions. */
+  distances: { stationKm: 1.1, stationMinutes: 4 },
+
+  /** From the Google Maps place id 0xff807661682601af. */
+  googleCid: "18410845437421814191",
+  zomatoUrl: "https://www.zomato.com/satna/veerjis-restaurant-satna-locality/order",
+  justdialUrl:
+    "https://www.justdial.com/Satna/Veerjis-Restaurant-Behind-Automobile-Parts-Near-R-S-Tower-Railway-Colony/9999P7672-7672-221012162308-E6L5_BZDET",
+  instagramUrl: "https://www.instagram.com/veerjisatna/",
+  instagramHandle: "@veerjisatna",
 
   amenities: [
-    "Free parking",
-    "Banquet hall",
+    "Pure veg",
+    "Live music",
+    "Song dedications",
     "Private dining room",
-    "Big-screen sport",
+    "Free Wi-Fi",
+    "Free parking",
+    "Kids' menu & high chairs",
     "Wheelchair accessible",
-    "Kids' menu",
     "Takeaway & delivery",
-    "Cards & mobile pay",
+    "Cards & UPI",
   ],
+
+  /** The sister venue, opened in 2026. */
+  sister: {
+    name: "Bikaner by Veerji's",
+    nameHi: "बीकानेर बाय वीरजी'स",
+    line: "Rajasthani flavours, fine dining and party bookings",
+    address: "Gali No. 16, Rajendra Nagar, Satna 485001",
+    phone: "+91 95844 39543",
+    geo: { lat: 24.5676096, lng: 80.8223319 },
+    googleCid: "16277577999844461606",
+    instagramUrl: "https://www.instagram.com/bikanerbyveerjis/",
+    instagramHandle: "@bikanerbyveerjis",
+  },
 } as const;

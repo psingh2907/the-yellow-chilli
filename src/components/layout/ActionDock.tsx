@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Icon, type IconName } from "@/components/ui/Icon";
 import { cn } from "@/lib/cn";
-import { directionsUrl, phoneHref, whatsappHref } from "@/lib/contact";
+import { bookingMessage, directionsUrl, phoneHref, whatsappHref } from "@/lib/contact";
 import { gsap, prefersReducedMotion, useGSAP } from "@/lib/gsap";
 import { formatTime, getOpenStatus } from "@/lib/hours";
 import { platter, platterCount, usePlatter, usePlatterOpen } from "@/components/menu/platter";
@@ -17,7 +17,7 @@ interface Action {
   icon: IconName;
   href: string;
   external?: boolean;
-  tone: "saffron" | "whatsapp" | "plain";
+  tone: "gold" | "whatsapp" | "plain";
 }
 
 function useShortStatus(): string {
@@ -35,10 +35,10 @@ function useShortStatus(): string {
 }
 
 /**
- * Phone-only speed dial. At rest it is one 52px saffron button in the bottom
+ * Phone-only speed dial. At rest it is one 52px gold button in the bottom
  * right corner (a quarter of the old dock's footprint). Tapping it dims the
  * page and fans the actions upward as labelled pills (GSAP timeline, staggered,
- * "chilli" ease); the phone icon morphs into a cross. After a few seconds of
+ * "groove" ease); the phone icon morphs into a cross. After a few seconds of
  * scrolling down the button shrinks to a smaller dot, and grows back on
  * scroll up. On /menu the Thali button sits beside it with the live dish count.
  */
@@ -59,10 +59,10 @@ export function ActionDock() {
   const tl = useRef<gsap.core.Timeline | null>(null);
 
   const actions: Action[] = [
-    { label: "Call to book", sub: status, icon: "phone", href: phoneHref, tone: "saffron" },
-    { label: "WhatsApp", sub: "Reserve a table", icon: "whatsapp", href: whatsappHref("Hi! I'd like to book a table at The Yellow Chilli, Satna."), external: true, tone: "whatsapp" },
-    { label: "Directions", sub: "NH-75, Panna Naka", icon: "pin", href: directionsUrl, external: true, tone: "plain" },
-    { label: "Menu", sub: "About 240 dishes", icon: "book", href: "/menu", tone: "plain" },
+    { label: "Call to book", sub: status, icon: "phone", href: phoneHref, tone: "gold" },
+    { label: "WhatsApp", sub: "Reserve a table", icon: "whatsapp", href: whatsappHref(bookingMessage), external: true, tone: "whatsapp" },
+    { label: "Directions", sub: "R.S Tower, Railway Colony", icon: "pin", href: directionsUrl, external: true, tone: "plain" },
+    { label: "Menu", sub: "About 200 veg dishes", icon: "book", href: "/menu", tone: "plain" },
   ];
 
   // Open / close timeline.
@@ -74,7 +74,7 @@ export function ActionDock() {
       gsap.set(items, { autoAlpha: 0, y: 24, scale: 0.8, transformOrigin: "100% 100%" });
       gsap.set(crossIcon.current, { autoAlpha: 0, rotation: -90 });
       tl.current = gsap
-        .timeline({ paused: true, defaults: { ease: "chilli", duration: reduced ? 0.01 : 0.5 } })
+        .timeline({ paused: true, defaults: { ease: "groove", duration: reduced ? 0.01 : 0.5 } })
         .to(scrim.current, { autoAlpha: 1, duration: reduced ? 0.01 : 0.3, ease: "power1.out" }, 0)
         .to(phoneIcon.current, { autoAlpha: 0, rotation: 90, duration: reduced ? 0.01 : 0.25 }, 0)
         .to(crossIcon.current, { autoAlpha: 1, rotation: 0, duration: reduced ? 0.01 : 0.35 }, 0.05)
@@ -149,7 +149,7 @@ export function ActionDock() {
                 <span
                   className={cn(
                     "flex h-11 w-11 shrink-0 items-center justify-center rounded-full",
-                    a.tone === "saffron" && "bg-saffron text-night",
+                    a.tone === "gold" && "bg-gold text-night",
                     a.tone === "whatsapp" && "bg-whatsapp text-night",
                     a.tone === "plain" && "bg-cream text-night",
                   )}
@@ -185,12 +185,12 @@ export function ActionDock() {
               aria-label={`Your thali: ${count} ${count === 1 ? "dish" : "dishes"}`}
               className={cn(
                 "relative flex h-[3.25rem] w-[3.25rem] items-center justify-center rounded-full ring-1 ring-cream/10 shadow-[0_12px_30px_-10px_rgba(0,0,0,0.8)] transition-all duration-150 active:scale-90",
-                thaliOpen ? "bg-cream text-night" : "bg-night text-saffron",
+                thaliOpen ? "bg-cream text-night" : "bg-night text-gold",
               )}
             >
               <Icon name="plate" className="h-6 w-6" />
               {count > 0 && (
-                <span className="absolute -top-1 -right-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-chilli px-1 text-[0.65rem] font-bold text-cream tabular-nums">
+                <span className="absolute -top-1 -right-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-rose px-1 text-[0.65rem] font-bold text-cream tabular-nums">
                   {count}
                 </span>
               )}
@@ -202,7 +202,7 @@ export function ActionDock() {
             onClick={() => setOpen((o) => !o)}
             aria-expanded={open}
             aria-label={open ? "Close quick actions" : "Book a table: call, WhatsApp, directions"}
-            className="relative flex h-[3.25rem] w-[3.25rem] items-center justify-center rounded-full bg-saffron text-night shadow-[0_14px_30px_-8px_rgba(244,165,33,0.55)] ring-1 ring-night/20"
+            className="relative flex h-[3.25rem] w-[3.25rem] items-center justify-center rounded-full bg-gold text-night shadow-[0_14px_30px_-8px_rgba(242,181,68,0.55)] ring-1 ring-night/20"
           >
             <span ref={phoneIcon} className="absolute inline-flex">
               <Icon name="phone" className="h-6 w-6" />
@@ -210,7 +210,7 @@ export function ActionDock() {
             <span ref={crossIcon} className="absolute inline-flex">
               <Icon name="close" className="h-5 w-5" />
             </span>
-            <span className="absolute top-0.5 right-0.5 h-2.5 w-2.5 rounded-full bg-leaf ring-2 ring-saffron" aria-hidden="true" />
+            <span className="absolute top-0.5 right-0.5 h-2.5 w-2.5 rounded-full bg-leaf ring-2 ring-gold" aria-hidden="true" />
           </button>
         </div>
       </nav>

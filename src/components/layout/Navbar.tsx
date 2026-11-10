@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Icon } from "@/components/ui/Icon";
-import { Wordmark } from "@/components/ui/ChilliMark";
+import { Wordmark } from "@/components/ui/Mark";
 import { business } from "@/data/business";
 import { navLinks } from "@/data/navigation";
 import { cn } from "@/lib/cn";
@@ -13,7 +13,7 @@ import { gsap, prefersReducedMotion, ScrollSmoother, ScrollTrigger, SplitText, u
 
 /**
  * Fixed header. Slides away while scrolling down, returns on any upward
- * scroll. The full-screen menu opens as a saffron circle growing out of the
+ * scroll. The full-screen menu opens as a gold circle growing out of the
  * button, then each link's letters rise in (SplitText).
  */
 export function Navbar({ hasBanner }: { hasBanner: boolean }) {
@@ -56,7 +56,7 @@ export function Navbar({ hasBanner }: { hasBanner: boolean }) {
       const links = gsap.utils.toArray<HTMLElement>("[data-menu-link]", panel.current);
       const split = SplitText.create(links, { type: "chars", mask: "chars" });
       tl.current = gsap
-        .timeline({ paused: true, defaults: { ease: "chilli" } })
+        .timeline({ paused: true, defaults: { ease: "groove" } })
         .set(panel.current, { visibility: "visible" })
         .fromTo(panel.current, { clipPath: "circle(0% at 95% 4%)" }, { clipPath: "circle(150% at 95% 4%)", duration: 0.9, ease: "simmer" })
         .from(split.chars, { yPercent: 110, duration: 0.8, stagger: 0.012 }, 0.35)
@@ -110,8 +110,8 @@ export function Navbar({ hasBanner }: { hasBanner: boolean }) {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "label relative py-2 transition-colors hover:text-saffron",
-                  pathname === link.href ? "text-saffron" : "text-cream/80",
+                  "label relative py-2 transition-colors hover:text-gold",
+                  pathname === link.href ? "text-gold" : "text-cream/80",
                 )}
               >
                 {link.label}
@@ -122,7 +122,7 @@ export function Navbar({ hasBanner }: { hasBanner: boolean }) {
             <a
               href={phoneHref}
               data-magnetic
-              className="hidden min-h-11 items-center gap-2 rounded-full bg-saffron px-5 text-sm font-semibold text-night transition-colors hover:bg-saffron-light sm:inline-flex"
+              className="hidden min-h-11 items-center gap-2 rounded-full bg-gold px-5 text-sm font-semibold text-night transition-colors hover:bg-gold-light sm:inline-flex"
             >
               <span data-magnetic-label className="inline-flex items-center gap-2">
                 <Icon name="phone" className="h-4 w-4" /> Reserve
@@ -133,7 +133,7 @@ export function Navbar({ hasBanner }: { hasBanner: boolean }) {
               onClick={() => setOpen((o) => !o)}
               aria-expanded={open}
               aria-controls="site-menu"
-              className="relative z-[61] inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/25 text-cream transition-colors hover:border-saffron hover:text-saffron lg:hidden"
+              className="relative z-[61] inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/25 text-cream transition-colors hover:border-gold hover:text-gold lg:hidden"
             >
               <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
               <Icon name={open ? "close" : "menu"} />
@@ -147,7 +147,7 @@ export function Navbar({ hasBanner }: { hasBanner: boolean }) {
         id="site-menu"
         aria-hidden={!open}
         inert={!open}
-        className="invisible fixed inset-0 z-[60] flex flex-col overflow-y-auto bg-saffron text-night"
+        className="invisible fixed inset-0 z-[60] flex flex-col overflow-y-auto bg-gold text-night"
       >
         <div className="container-x flex min-h-full flex-col justify-between gap-10 pt-28 pb-10">
           <nav aria-label="Menu" className="flex flex-col gap-1">

@@ -1,19 +1,20 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { ChilliMark } from "@/components/ui/ChilliMark";
+import type * as T from "three";
+import { RecordArt } from "@/components/ui/RecordArt";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
 import { afterIntro } from "@/lib/intro";
-import { createChilli } from "@/lib/three/chilli";
-import { createSpice } from "@/lib/three/spice";
+import { createConfetti } from "@/lib/three/confetti";
+import { createRecord } from "@/lib/three/record";
 import { canUseWebGL, createStage } from "@/lib/three/stage";
 import { useClientValue } from "@/lib/useClient";
 
 /**
- * The hero's 3D layer: a glossy yellow chilli in a cloud of spice.
+ * The hero's 3D layer: a Veerji's record turning in a cloud of confetti.
  *  - Pointer tilts it (gsap.quickTo on plain numbers, read each frame).
- *  - Scrolling the hero away scrubs a timeline that spins the chilli off
- *    and bursts the spice outward (a shader uniform tweened by GSAP).
+ *  - Scrolling the hero away scrubs a timeline that flips the record off
+ *    and bursts the confetti outward (a shader uniform tweened by GSAP).
  * Without WebGL, or for reduced motion, a still illustration stands in.
  */
 export function HeroScene() {
@@ -33,6 +34,9 @@ export function HeroScene() {
       const { THREE, scene, camera, renderer, isMobile } = stage;
       const { RoomEnvironment } = await import("three/addons/environments/RoomEnvironment.js");
       if (disposed) return stage.dispose();
+      // The label's text is drawn with the display font: wait for it.
+      await document.fonts?.ready;
+      if (disposed) return stage.dispose();
 
       const pmrem = new THREE.PMREMGenerator(renderer);
       scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
@@ -40,34 +44,37 @@ export function HeroScene() {
 
       const BASE_Z = 8;
       camera.position.set(0, 0, BASE_Z);
-      scene.environmentIntensity = 0.55;
-      const key = new THREE.DirectionalLight("#fff1d6", 2.4);
-      key.position.set(3, 4, 5);
-      const rim = new THREE.DirectionalLight("#ff3b1f", 4);
+      scene.environmentIntensity = 0.45;
+      // Warm stage spot from above, a rose rim from behind.
+      const key = new THREE.DirectionalLight("#ffe7c2", 2.6);
+      key.position.set(3, 5, 5);
+      const rim = new THREE.DirectionalLight("#ff4d7d", 5);
       rim.position.set(-4, -1, -3);
-      scene.add(key, rim, new THREE.AmbientLight("#3a2f60", 0.5));
+      scene.add(key, rim, new THREE.AmbientLight("#4a2a5a", 0.6));
 
       // placement: fitted to the viewport · rig: pointer tilt + scroll.
       const placement = new THREE.Group();
       const rig = new THREE.Group();
-      const chilli = createChilli(THREE, { detail: isMobile ? 0.6 : 1 });
-      chilli.rotation.set(0.1, -0.5, 0.35);
-      rig.add(chilli);
+      const record = createRecord(THREE, { detail: isMobile ? 0.6 : 1 });
+      const spinner = record.userData.spinner as T.Group;
+      record.rotation.set(-0.42, -0.55, 0.18);
+      rig.add(record);
       placement.add(rig);
       scene.add(placement);
 
-      const spice = createSpice(THREE, isMobile ? 420 : 1800, renderer.getPixelRatio());
-      placement.add(spice);
+      const confetti = createConfetti(THREE, isMobile ? 420 : 1600, renderer.getPixelRatio());
+      placement.add(confetti);
 
-      // Keep the chilli beside the headline (desktop) or above it (portrait),
+      // Keep the record beside the headline (desktop) or above it (portrait),
       // sized from what the camera can see at z = 0.
       const fit = () => {
         const visH = 2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * BASE_Z;
         const visW = visH * camera.aspect;
         const portrait = camera.aspect < 0.9;
-        const scale = (visH * (portrait ? 0.36 : 0.62)) / 3.8;
+        // Portrait: a smaller record tucked into the top right, above the copy.
+        const scale = (visH * (portrait ? 0.2 : 0.6)) / 4;
         placement.scale.setScalar(scale);
-        placement.position.set(portrait ? visW * 0.16 : visW * 0.27, portrait ? visH * 0.2 : -visH * 0.02, 0);
+        placement.position.set(portrait ? visW * 0.22 : visW * 0.26, portrait ? visH * 0.3 : -visH * 0.02, 0);
       };
       fit();
       const ro = new ResizeObserver(fit);
@@ -87,30 +94,33 @@ export function HeroScene() {
       };
       window.addEventListener("pointermove", onMove, { passive: true });
 
-      const uniforms = spice.material.uniforms;
-      stage.onFrame((t) => {
+      // Turntable speed: a plain number GSAP can ramp up from rest.
+      const deck = { rpm: 0 };
+      const uniforms = confetti.material.uniforms;
+      stage.onFrame((t, dt) => {
         uniforms.uTime.value = t;
-        chilli.rotation.y += 0.0035;
-        chilli.position.y = Math.sin(t * 0.9) * 0.08;
+        spinner.rotation.z -= dt * deck.rpm * 0.105;
+        record.position.y = Math.sin(t * 0.9) * 0.08;
         rig.rotation.x = tilt.x;
-        rig.rotation.z = -tilt.y * 0.25;
-        spice.rotation.y = t * 0.03 + tilt.y * 0.3;
+        rig.rotation.y = tilt.y * 0.6;
+        confetti.rotation.y = t * 0.03 + tilt.y * 0.3;
       });
 
-      // Arrival: the chilli drops in with a little spin once the loader lifts.
+      // Arrival: the record drops in and the turntable spins up to 33⅓.
       gsap.set(rig.scale, { x: 0.001, y: 0.001, z: 0.001 });
       const stopIntro = afterIntro(() => {
         gsap.to(rig.scale, { x: 1, y: 1, z: 1, duration: 1.6, ease: "elastic.out(1, 0.55)", delay: 0.15 });
-        gsap.from(chilli.rotation, { y: chilli.rotation.y - Math.PI * 1.5, duration: 2, ease: "chilli", delay: 0.15 });
+        gsap.from(record.rotation, { x: record.rotation.x - Math.PI * 0.6, duration: 2, ease: "groove", delay: 0.15 });
+        gsap.to(deck, { rpm: 33.3, duration: 2.4, ease: "power2.out", delay: 0.3 });
         gsap.from(uniforms.uBurst, { value: 0.6, duration: 2.2, ease: "simmer" });
       });
 
-      // Scroll away: spin off, burst the spice.
+      // Scroll away: flip the record up and off, burst the confetti.
       const section = el.closest("section");
       const scrub = gsap
         .timeline({ scrollTrigger: { trigger: section, start: "top top", end: "bottom top", scrub: 0.6 } })
         .to(uniforms.uBurst, { value: 1, ease: "none" }, 0)
-        .to(rig.rotation, { y: Math.PI * 1.2, ease: "none" }, 0)
+        .to(rig.rotation, { z: Math.PI * 0.5, ease: "none" }, 0)
         .to(rig.position, { y: 2.6, ease: "none" }, 0)
         .to(camera.position, { z: BASE_Z + 2, ease: "none" }, 0);
 
@@ -135,8 +145,8 @@ export function HeroScene() {
 
   if (fallback) {
     return (
-      <div aria-hidden="true" className="absolute inset-0 flex items-start justify-center pt-28 md:items-center md:justify-end md:pt-0 md:pr-[12vw]">
-        <ChilliMark className="h-56 w-56 rotate-12 drop-shadow-[0_30px_60px_rgba(244,165,33,0.35)] md:h-[26rem] md:w-[26rem]" />
+      <div aria-hidden="true" className="absolute inset-0 flex items-start justify-center pt-28 md:items-center md:justify-end md:pt-0 md:pr-[10vw]">
+        <RecordArt className="h-56 w-56 -rotate-12 drop-shadow-[0_30px_60px_rgba(242,181,68,0.3)] md:h-[26rem] md:w-[26rem]" />
       </div>
     );
   }

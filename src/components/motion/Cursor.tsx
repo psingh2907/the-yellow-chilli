@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
 
 /**
- * Desktop cursor: a saffron dot that follows exactly and a ring that trails
+ * Desktop cursor: a gold dot that follows exactly and a ring that trails
  * (both via gsap.quickTo, so no tween is created per mouse move). Over
  * `[data-cursor="label"]` the ring grows and shows the label ("Drag",
  * "View"…). Also drives magnetic buttons: `[data-magnetic]` leans toward
@@ -65,9 +65,9 @@ export function Cursor() {
       if (text.current) text.current.textContent = label;
       gsap.to(ring.current, {
         scale: label ? 2.6 : interactive ? 1.6 : 1,
-        backgroundColor: label ? "rgba(244,165,33,0.95)" : "rgba(244,165,33,0)",
+        backgroundColor: label ? "rgba(242,181,68,0.95)" : "rgba(242,181,68,0)",
         duration: 0.35,
-        ease: "chilli",
+        ease: "groove",
         overwrite: "auto",
       });
       gsap.to(dot.current, { scale: label || interactive ? 0 : 1, duration: 0.25, overwrite: "auto" });
@@ -97,10 +97,10 @@ export function Cursor() {
 
   return (
     <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-[90] hidden [@media(hover:hover)_and_(pointer:fine)]:block">
-      <div ref={ring} className="invisible fixed top-0 left-0 -mt-5 -ml-5 flex h-10 w-10 items-center justify-center rounded-full border border-saffron/70 opacity-0">
+      <div ref={ring} className="invisible fixed top-0 left-0 -mt-5 -ml-5 flex h-10 w-10 items-center justify-center rounded-full border border-gold/70 opacity-0">
         <span ref={text} className="text-[0.32rem] font-bold tracking-[0.18em] text-night uppercase" />
       </div>
-      <div ref={dot} className="invisible fixed top-0 left-0 -mt-1 -ml-1 h-2 w-2 rounded-full bg-saffron opacity-0" />
+      <div ref={dot} className="invisible fixed top-0 left-0 -mt-1 -ml-1 h-2 w-2 rounded-full bg-gold opacity-0" />
     </div>
   );
 }

@@ -104,7 +104,7 @@ export function ScatterWord({ text }: { text: string }) {
     <p
       ref={root}
       aria-hidden="true"
-      className="flex cursor-pointer justify-center px-2 font-display text-[clamp(2.6rem,12.8vw,15rem)] leading-[0.85] font-extrabold tracking-[-0.05em] text-saffron select-none [-webkit-tap-highlight-color:transparent]"
+      className="flex cursor-pointer justify-center px-2 font-display text-[clamp(4.5rem,26vw,24rem)] leading-[0.85] font-extrabold tracking-[-0.05em] text-gold select-none [-webkit-tap-highlight-color:transparent]"
     >
       {Array.from(text).map((ch, i) => (
         <span key={i} data-letter className="inline-block will-change-transform">

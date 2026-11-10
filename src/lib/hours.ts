@@ -5,7 +5,7 @@ const toMinutes = (hhmm: string) => {
   return h * 60 + m;
 };
 
-/** "23:30" → "11:30 pm". */
+/** "23:00" → "11 pm". */
 export function formatTime(hhmm: string): string {
   const [h, m] = hhmm.split(":").map(Number);
   const hour = h % 12 || 12;
@@ -13,7 +13,7 @@ export function formatTime(hhmm: string): string {
   return `${clock} ${h >= 12 ? "pm" : "am"}`;
 }
 
-/** "11:30 am – 11:30 pm". */
+/** "11 am – 11 pm". */
 export const hoursText = `${formatTime(business.hours.opens)} – ${formatTime(business.hours.closes)}`;
 
 export interface OpenStatus {

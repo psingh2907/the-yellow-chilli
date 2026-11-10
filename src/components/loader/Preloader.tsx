@@ -4,21 +4,21 @@ import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
 import { Flip } from "gsap/Flip";
 import { MorphSVGPlugin } from "gsap/MorphSVGPlugin";
 import { useEffect, useRef } from "react";
-import { CHILLI_CAP, CHILLI_POD, CHILLI_STEM } from "@/components/ui/ChilliMark";
+import { MIC_GRILLE, MIC_HEAD, MIC_STAND, Wordmark } from "@/components/ui/Mark";
 import { gsap, SplitText } from "@/lib/gsap";
 import { INTRO_DONE_EVENT, INTRO_STORAGE_KEY } from "@/lib/intro";
 
 gsap.registerPlugin(DrawSVGPlugin, MorphSVGPlugin, Flip);
 
-const LINES = ["Heating the tawa", "Tempering the spices", "Plating up"];
-// A circle drawn as a path so MorphSVG can tween the pod into it.
-const CIRCLE = "M32,14 C42,14 50,22 50,32 C50,42 42,50 32,50 C22,50 14,42 14,32 C14,22 22,14 32,14 Z";
+const LINES = ["Tuning the strings", "Warming the tandoor", "Mic check, 1, 2"];
+// A circle (around the mic head) drawn as a path so MorphSVG can tween the head into it.
+const CIRCLE = "M32,4.5 C40.8,4.5 48,11.7 48,20.5 C48,29.3 40.8,36.5 32,36.5 C23.2,36.5 16,29.3 16,20.5 C16,11.7 23.2,4.5 32,4.5 Z";
 
 /**
- * "Tadka": the first-visit loader.
- *  1. The chilli's outline is drawn (DrawSVG) as the counter runs to 100.
- *  2. It fills with saffron and sizzles (CustomWiggle "heat").
- *  3. The pod morphs into a disc (MorphSVG) that floods the screen.
+ * "Mic check": the first-visit loader.
+ *  1. The microphone is drawn (DrawSVG) as the counter runs to 100.
+ *  2. Its head fills with gold and the mic gets a tap (CustomWiggle "heat").
+ *  3. The head morphs into a disc (MorphSVG) that floods the screen.
  *  4. The wordmark rises in (SplitText), then flies into the header
  *     (Flip.fit) while the curtain lifts.
  * Progress follows real work (fonts, page load) between a minimum and a
@@ -86,16 +86,16 @@ export function Preloader() {
       window.removeEventListener("keydown", onKey);
       const mark = q("[data-loader-mark]")[0] as HTMLElement;
       const target = document.querySelector<HTMLElement>("[data-nav-mark]");
-      const split = SplitText.create(mark.querySelectorAll("[data-mark-word]"), { type: "chars", mask: "chars" });
+      const split = SplitText.create(mark.querySelector("[data-mark-word]"), { type: "chars", mask: "chars" });
 
-      const tl = gsap.timeline({ defaults: { ease: "chilli" } });
+      const tl = gsap.timeline({ defaults: { ease: "groove" } });
       tl.to(q("[data-fill]"), { fillOpacity: 1, duration: 0.35 })
-        .to(q("[data-chilli]"), { rotate: 10, duration: 0.6, ease: "heat" }, "<")
-        .to(q("[data-pod]"), { morphSVG: CIRCLE, duration: 0.5, ease: "simmer" }, "-=0.1")
-        .to(q("[data-cap], [data-stem], [data-shine]"), { opacity: 0, duration: 0.2 }, "<")
+        .to(q("[data-mic]"), { rotate: -10, duration: 0.6, ease: "heat" }, "<")
+        .to(q("[data-head]"), { morphSVG: CIRCLE, duration: 0.5, ease: "simmer" }, "-=0.1")
+        .to(q("[data-stand], [data-grille]"), { opacity: 0, duration: 0.2 }, "<")
         .to([counter, label], { opacity: 0, y: 10, duration: 0.3 }, "<")
         .fromTo(q("[data-flood]"), { clipPath: "circle(0% at 50% 46%)" }, { clipPath: "circle(150% at 50% 46%)", duration: 0.8, ease: "simmer" }, "-=0.15")
-        .set(q("[data-chilli]"), { opacity: 0 })
+        .set(q("[data-mic]"), { opacity: 0 })
         .set(mark, { opacity: 1 })
         .from(split.chars, { yPercent: 110, duration: 0.7, stagger: 0.025 }, "-=0.3")
         .add(() => {
@@ -146,16 +146,15 @@ export function Preloader() {
   return (
     <div ref={root} id="loader" aria-hidden="true" className="fixed inset-0 z-[100]">
       <div data-curtain className="absolute inset-0 overflow-hidden bg-night">
-        <div data-flood className="absolute inset-0 bg-saffron" style={{ clipPath: "circle(0% at 50% 46%)" }} />
+        <div data-flood className="absolute inset-0 bg-gold" style={{ clipPath: "circle(0% at 50% 46%)" }} />
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-6">
-          <svg data-chilli viewBox="0 0 64 64" className="h-36 w-36 overflow-visible md:h-44 md:w-44">
-            <path data-pod data-draw data-fill d={CHILLI_POD} fill="var(--color-saffron)" stroke="var(--color-saffron)" strokeWidth="1.2" />
-            <path data-shine d="M24,21 C33,19 41,24 45,32" fill="none" stroke="#fff" strokeOpacity="0.5" strokeWidth="2" strokeLinecap="round" data-draw />
-            <path data-cap data-draw data-fill d={CHILLI_CAP} fill="var(--color-leaf)" stroke="var(--color-leaf)" strokeWidth="1.2" />
-            <path data-stem data-draw d={CHILLI_STEM} fill="none" stroke="var(--color-leaf)" strokeWidth="3" strokeLinecap="round" />
+          <svg data-mic viewBox="0 0 64 64" className="h-36 w-36 overflow-visible md:h-44 md:w-44">
+            <path data-stand data-draw d={MIC_STAND} fill="none" stroke="var(--color-rose)" strokeWidth="4" strokeLinecap="round" />
+            <path data-head data-draw data-fill d={MIC_HEAD} fill="var(--color-gold)" stroke="var(--color-gold)" strokeWidth="1.2" />
+            <path data-grille data-draw d={MIC_GRILLE} fill="none" stroke="var(--color-night)" strokeOpacity="0.55" strokeWidth="2" strokeLinecap="round" />
           </svg>
           <div className="flex flex-col items-center gap-2">
-            <span data-counter className="font-display text-sm font-bold tracking-[0.3em] text-saffron tabular-nums">
+            <span data-counter className="font-display text-sm font-bold tracking-[0.3em] text-gold tabular-nums">
               000
             </span>
             <span data-label className="label text-mist">
@@ -169,7 +168,7 @@ export function Preloader() {
           data-loader-mark
           className="inline-block font-display text-[clamp(2.6rem,10vw,8rem)] font-extrabold tracking-[-0.04em] text-night lowercase opacity-0"
         >
-          <span data-mark-word>the yellow</span> <span data-mark-word>chilli</span>
+          <Wordmark data-mark-word="" accent="text-current" />
         </span>
       </div>
     </div>

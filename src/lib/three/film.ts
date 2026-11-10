@@ -65,13 +65,13 @@ export function buildFilm(THREE: Three, scene: T.Scene, { mobile = false } = {})
   const clay = new THREE.MeshStandardMaterial({ color: "#9a4a24", roughness: 0.9 });
   const dough = new THREE.MeshStandardMaterial({ color: "#efd9a8", roughness: 0.95 });
 
-  scene.fog = new THREE.Fog("#0d1020", 14, 34);
+  scene.fog = new THREE.Fog("#140a18", 14, 34);
   scene.add(new THREE.HemisphereLight("#ffe6c0", "#1a1430", 0.9));
   const key = new THREE.DirectionalLight("#ffe2b8", 1.6);
   key.position.set(30, 14, 12);
   key.target.position.set(30, 0, 0);
   scene.add(key, key.target);
-  const floor = new THREE.Mesh(new THREE.PlaneGeometry(120, 40), new THREE.MeshStandardMaterial({ color: "#151a30", roughness: 1 }));
+  const floor = new THREE.Mesh(new THREE.PlaneGeometry(120, 40), new THREE.MeshStandardMaterial({ color: "#21122a", roughness: 1 }));
   floor.rotation.x = -Math.PI / 2;
   floor.position.set(30, -1.2, 0);
   scene.add(floor);
@@ -94,7 +94,7 @@ export function buildFilm(THREE: Three, scene: T.Scene, { mobile = false } = {})
   const sun = new THREE.PointLight("#ffcf8a", 60, 20);
   sun.position.set(-3, 5, 4);
   market.add(sun);
-  const dust = particles(THREE, mobile ? 120 : 300, "#ffd27a", 0.12);
+  const dust = particles(THREE, mobile ? 120 : 300, "#ffd98a", 0.12);
   market.add(dust);
   market.position.x = CHAPTER_X[0];
   scene.add(market);
@@ -132,7 +132,7 @@ export function buildFilm(THREE: Three, scene: T.Scene, { mobile = false } = {})
   const coals = new THREE.PointLight("#ff6a1a", 18, 6);
   coals.position.y = -1.6;
   dum.add(coals);
-  const steam = particles(THREE, mobile ? 80 : 180, "#fbf3e4", 0.5);
+  const steam = particles(THREE, mobile ? 80 : 180, "#fbf3e8", 0.5);
   (steam.material as T.PointsMaterial).blending = THREE.NormalBlending;
   (steam.material as T.PointsMaterial).opacity = 0.35;
   dum.add(steam);
@@ -171,11 +171,11 @@ export function buildFilm(THREE: Three, scene: T.Scene, { mobile = false } = {})
   naan.position.set(-0.6, -0.28, 0.9);
   thali.add(naan);
   katoris.push(naan);
-  const lamp = new THREE.PointLight("#ffd27a", 30, 12);
+  const lamp = new THREE.PointLight("#ffd98a", 30, 12);
   lamp.position.set(0, 4, 2);
   thali.add(lamp);
   // Bokeh: soft warm lights in the dark behind the table.
-  const bokeh = particles(THREE, mobile ? 30 : 60, "#f4a521", 1.4);
+  const bokeh = particles(THREE, mobile ? 30 : 60, "#f2b544", 1.4);
   const bp = bokeh.geometry.attributes.position as T.BufferAttribute;
   for (let i = 0; i < bp.count; i++) bp.setXYZ(i, (Math.random() - 0.5) * 22, Math.random() * 6 - 0.5, -6 - Math.random() * 8);
   (bokeh.material as T.PointsMaterial).opacity = 0.5;

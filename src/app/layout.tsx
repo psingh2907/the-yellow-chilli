@@ -18,7 +18,7 @@ import "./globals.css";
 export const metadata = rootMetadata();
 
 export const viewport: Viewport = {
-  themeColor: "#0d1020",
+  themeColor: "#140a18",
   viewportFit: "cover",
 };
 

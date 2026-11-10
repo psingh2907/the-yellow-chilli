@@ -3,22 +3,23 @@
 import { useEffect, useRef } from "react";
 import { Button } from "@/components/ui/Button";
 import { DishArt, type DishSpec } from "@/components/ui/DishArt";
+import { RecordArt } from "@/components/ui/RecordArt";
 import { cn } from "@/lib/cn";
 import { gsap, prefersReducedMotion, ScrollTrigger, SplitText } from "@/lib/gsap";
 import { buildFilm } from "@/lib/three/film";
 import { canUseWebGL, createStage } from "@/lib/three/stage";
 import { useClientValue } from "@/lib/useClient";
 
-const CHAPTERS: Array<{ time: string; title: string; text: string; art: DishSpec }> = [
-  { time: "Dawn", title: "A spice market.", text: "It starts with choosing: turmeric, red chilli, coriander, cumin, garam masala. Whole, then ground.", art: { kind: "curry", tone: "#c9581f", seed: 21 } },
-  { time: "Noon", title: "The tandoor.", text: "A clay oven, charcoal at the bottom, heat that kebabs and naan need and gas can't give.", art: { kind: "kebab", tone: "#c0571f", seed: 22 } },
-  { time: "Afternoon", title: "Dum.", text: "The handi is sealed with a ring of dough and left on low coals. No lifting the lid. No peeking.", art: { kind: "biryani", tone: "#e3b25a", seed: 23 } },
-  { time: "Evening", title: "The thali.", text: "Dal, paneer, a kebab, raita, rice and a naan, each finding its place on brass.", art: { kind: "dal", tone: "#4a2416", seed: 24 } },
-  { time: "Night", title: "Your table, Satna.", text: "NH-75, Panna Naka Road. The plate is ready when you are.", art: { kind: "dessert", tone: "#f3e6c8", seed: 25 } },
-];
+const CHAPTERS: Array<{ time: string; title: string; text: string; art: DishSpec | "record" }> = [
+  { time: "Morning", title: "The spice box.", text: "Two hundred dishes start here: turmeric, red chilli, coriander, cumin and garam masala, ground fresh for the day.", art: { kind: "curry", tone: "#c9581f", seed: 21 } },
+  { time: "Noon", title: "The tandoor.", text: "Charcoal at the bottom, paneer tikka on the skewers, and naan slapped onto the hot clay walls.", art: { kind: "kebab", tone: "#e8893a", seed: 22 } },
+  { time: "Afternoon", title: "The slow pot.", text: "Dal makhani on a low flame for hours. The dum biryani sealed with dough and left alone.", art: { kind: "biryani", tone: "#e3b25a", seed: 23 } },
+  { time: "Evening", title: "The VRJ Special Thali.", text: "Dal tadka, paneer lababdar, jalfrezi, mixed veg, raita, pulao and a roti, each finding its place on the plate.", art: { kind: "thali", tone: "#2f9e57", seed: 24 } },
+  { time: "Night", title: "Then, the mic.", text: "R.S Tower, Railway Colony. The lights go low, Veerji starts the first song, and your table is ready.", art: "record" },
+]
 
 /**
- * "One Plate": a scroll-driven film rendered live with Three.js (after
+ * "One Thali": a scroll-driven film rendered live with Three.js (after
  * Chasing the Moment's real-time web film). The section pins for six screens;
  * one scrubbed GSAP timeline moves a progress value that the camera follows
  * along a spline, swaps the chapter captions (SplitText), and drops the
@@ -39,7 +40,7 @@ export function StoryFilm() {
       const stage = await createStage(el, { fov: 42, alpha: false });
       if (disposed) return stage.dispose();
       const { THREE, scene, camera, renderer } = stage;
-      renderer.setClearColor("#0d1020");
+      renderer.setClearColor("#140a18");
       // Brass and copper need something to reflect: a soft studio environment.
       const { RoomEnvironment } = await import("three/addons/environments/RoomEnvironment.js");
       if (disposed) return stage.dispose();
@@ -81,8 +82,8 @@ export function StoryFilm() {
       tl.to(play, { t: 1, duration: n }, 0);
       captions.forEach((c, i) => {
         tl.to(c, { autoAlpha: 1, duration: 0.2 }, i + 0.1)
-          .from(splits[i].words, { yPercent: 110, stagger: 0.05, duration: 0.35, ease: "chilli" }, i + 0.1)
-          .from(c.querySelector("p"), { opacity: 0, y: 20, duration: 0.3, ease: "chilli" }, i + 0.3);
+          .from(splits[i].words, { yPercent: 110, stagger: 0.05, duration: 0.35, ease: "groove" }, i + 0.1)
+          .from(c.querySelector("p"), { opacity: 0, y: 20, duration: 0.3, ease: "groove" }, i + 0.3);
         if (i < n - 1) tl.to(c, { autoAlpha: 0, duration: 0.2 }, i + 0.85);
       });
       // Plating: each katori drops in and settles with a bounce.
@@ -111,13 +112,13 @@ export function StoryFilm() {
 
   if (mode === "static") {
     return (
-      <section aria-label="One Plate, in five chapters" className="bg-night py-16 text-cream">
+      <section aria-label="One Thali, in five chapters" className="bg-night py-16 text-cream">
         <ol className="container-x grid gap-10 md:grid-cols-2">
           {CHAPTERS.map((c, i) => (
             <li key={c.time} className="grid grid-cols-[6rem_1fr] items-center gap-6">
-              <DishArt spec={c.art} className="w-24" />
+              {c.art === "record" ? <RecordArt className="w-24" /> : <DishArt spec={c.art} className="w-24" />}
               <div>
-                <p className="label text-saffron">
+                <p className="label text-gold">
                   0{i + 1} · {c.time}
                 </p>
                 <h2 className="mt-1 font-display text-2xl font-bold">{c.title}</h2>
@@ -135,13 +136,13 @@ export function StoryFilm() {
   // to remove the section from its old parent and the route crashed.
   return (
     <div>
-      <section ref={root} aria-label="One Plate: a scroll film in five chapters" className="relative h-svh overflow-hidden bg-night text-cream">
+      <section ref={root} aria-label="One Thali: a scroll film in five chapters" className="relative h-svh overflow-hidden bg-night text-cream">
         <canvas ref={canvas} aria-hidden="true" className="absolute inset-0 h-full w-full opacity-0 transition-opacity duration-1000" />
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_45%,rgba(13,16,32,0.85)_100%)]" />
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_45%,rgba(20,10,24,0.85)_100%)]" />
         {CHAPTERS.map((c, i) => (
           <div key={c.time} data-film-caption className={cn("absolute inset-x-0 bottom-0 pb-24 lg:pb-16", mode === null && "invisible")}>
             <div className="container-x">
-              <p className="label text-saffron">
+              <p className="label text-gold">
                 0{i + 1} / 0{CHAPTERS.length} · {c.time}
               </p>
               <h2 className="mt-2 font-display text-[clamp(2.4rem,7vw,6rem)] leading-[0.95] font-extrabold tracking-tight">{c.title}</h2>
@@ -160,7 +161,7 @@ export function StoryFilm() {
           </div>
         ))}
         <div className="absolute inset-x-0 bottom-0 h-1 bg-night-line">
-          <div data-film-progress className="h-full origin-left bg-saffron" />
+          <div data-film-progress className="h-full origin-left bg-gold" />
         </div>
       </section>
     </div>

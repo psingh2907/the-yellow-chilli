@@ -9,7 +9,7 @@ import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
   title: "Menu",
-  description: `The full Yellow Chilli Satna menu: ${itemCount} dishes across ${menu.length} sections, from Lalla Mussa Dal and Dahi Ke Kabab to biryanis, tandoor and Indo-Chinese. Build a platter and send it on WhatsApp.`,
+  description: `The full Veerji's Satna menu: ${itemCount} pure-veg dishes across ${menu.length} sections, from the ₹199 thali and paneer sizzlers to tandoor starters, Chinese, dosas and shakes. Build your order and send it on WhatsApp.`,
   path: "/menu",
 });
 
@@ -17,13 +17,13 @@ export default function MenuPage() {
   return (
     <>
       <PageHero
-        label={`${itemCount} dishes · ${menu.length} sections`}
+        label={`${itemCount} dishes · ${menu.length} sections · 100% veg`}
         title={
           <>
-            The <span className="text-saffron">menu</span>.
+            The <span className="text-gold">menu</span>.
           </>
         }
-        intro="Tandoor, curries, biryanis, Indo-Chinese and desserts. Tap + to build a platter: we'll add it up per person, and you can send it straight to the restaurant."
+        intro="Thalis, sizzlers, tandoor, paneer, Chinese, dosas, sandwiches and shakes, all vegetarian. Tap + to build your order: we'll add it up per person, and you can send it straight to Veerji's on WhatsApp."
       >
         <Button href={business.zomatoUrl} variant="outline" icon="arrow" external className="text-cream">
           Order delivery on Zomato

@@ -15,13 +15,13 @@ export function RestaurantSchema() {
     "@context": "https://schema.org",
     "@type": "Restaurant",
     "@id": `${url}/#restaurant`,
-    name: `${business.name}, ${business.branch}`,
+    name: `${business.fullName}, ${business.branch}`,
+    alternateName: business.name,
     description: business.description,
     url,
     telephone: contact.phone.replace(/\s/g, ""),
-    email: contact.email,
     priceRange: `₹${priceRange.min}–${priceRange.max}`,
-    servesCuisine: ["North Indian", "Mughlai", "Punjabi", "Indo-Chinese"],
+    servesCuisine: ["Vegetarian", "North Indian", "Chinese", "South Indian", "Continental"],
     acceptsReservations: true,
     hasMenu: `${url}/menu`,
     address: {
@@ -35,7 +35,7 @@ export function RestaurantSchema() {
     geo: { "@type": "GeoCoordinates", latitude: geo.lat, longitude: geo.lng },
     hasMap: placeUrl,
     openingHoursSpecification: [{ "@type": "OpeningHoursSpecification", dayOfWeek: hours.days, opens: hours.opens, closes: hours.closes }],
-    sameAs: [placeUrl, business.zomatoUrl, business.facebookUrl],
+    sameAs: [placeUrl, business.zomatoUrl, business.instagramUrl, business.justdialUrl],
   };
   return <JsonLd data={data} />;
 }

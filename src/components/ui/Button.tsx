@@ -3,12 +3,12 @@ import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
 import { Icon, type IconName } from "./Icon";
 
-type Variant = "solid" | "outline" | "ghost" | "chilli";
+type Variant = "solid" | "outline" | "ghost" | "rose";
 
 const styles: Record<Variant, string> = {
-  solid: "bg-saffron text-night hover:bg-saffron-light",
-  chilli: "bg-chilli text-cream hover:bg-chilli-deep",
-  outline: "border border-current/30 text-current hover:border-saffron hover:text-saffron",
+  solid: "bg-gold text-night hover:bg-gold-light",
+  rose: "bg-rose text-night hover:bg-rose-deep hover:text-cream",
+  outline: "border border-current/30 text-current hover:border-gold hover:text-gold",
   ghost: "text-current underline-offset-4 hover:underline",
 };
 

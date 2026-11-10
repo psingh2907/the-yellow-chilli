@@ -4,24 +4,26 @@ import { Physics2DPlugin } from "gsap/Physics2DPlugin";
 import { type FormEvent, useRef, useState } from "react";
 import { Icon } from "@/components/ui/Icon";
 import { cn } from "@/lib/cn";
+import { business } from "@/data/business";
 import { whatsappHref } from "@/lib/contact";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
 
 gsap.registerPlugin(Physics2DPlugin);
 
-const OCCASIONS = ["Wedding / reception", "Birthday", "Anniversary", "Kitty party", "Office event", "Other"];
+const OCCASIONS = ["Birthday", "Anniversary", "Kitty party", "Baby shower", "Family dinner", "Office party", "Other"];
+const VENUES = [`${business.name}, R.S Tower`, `${business.sister.name}, Rajendra Nagar`, "Either is fine"];
 
 /**
- * Banquet enquiry. There's no server: it writes a tidy WhatsApp message
- * and opens the chat, so the restaurant gets every detail in one go.
- * On send, marigold petals burst from the button (Physics2D).
+ * Party enquiry. There's no server: it writes a tidy WhatsApp message
+ * and opens the chat, so the restaurant gets every detail (song request
+ * included) in one go. On send, confetti bursts from the button (Physics2D).
  */
 export function EnquiryForm() {
   const button = useRef<HTMLButtonElement>(null);
   const petals = useRef<HTMLDivElement>(null);
-  const [guests, setGuests] = useState(80);
-  const [occasion, setOccasion] = useState(OCCASIONS[1]);
-  const [food, setFood] = useState("Veg & non-veg");
+  const [guests, setGuests] = useState(25);
+  const [occasion, setOccasion] = useState(OCCASIONS[0]);
+  const [venue, setVenue] = useState(VENUES[0]);
 
   const burst = () => {
     if (prefersReducedMotion() || !petals.current) return;
@@ -44,12 +46,13 @@ export function EnquiryForm() {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     const message = [
-      "Hi! I'd like to enquire about a banquet at The Yellow Chilli, Satna.",
+      "Hi Veerji's! I'd like to book a party.",
       `Name: ${data.get("name")}`,
       `Occasion: ${occasion}`,
       `Date: ${data.get("date") || "flexible"}`,
       `Guests: about ${guests}`,
-      `Food: ${food}`,
+      `Venue: ${venue}`,
+      data.get("song") ? `Song request: ${data.get("song")}` : "",
       data.get("notes") ? `Notes: ${data.get("notes")}` : "",
     ]
       .filter(Boolean)
@@ -58,7 +61,7 @@ export function EnquiryForm() {
     setTimeout(() => window.open(whatsappHref(message), "_blank", "noopener"), prefersReducedMotion() ? 0 : 700);
   };
 
-  const field = "mt-2 min-h-12 w-full rounded-2xl border border-cream/15 bg-night px-4 text-cream placeholder:text-mist/60 focus:border-saffron focus:outline-none";
+  const field = "mt-2 min-h-12 w-full rounded-2xl border border-cream/15 bg-night px-4 text-cream placeholder:text-mist/60 focus:border-gold focus:outline-none";
   return (
     <form onSubmit={submit} className="grid gap-5 rounded-3xl bg-night-soft p-6 text-cream md:grid-cols-2 md:p-10">
       <label className="block">
@@ -78,7 +81,7 @@ export function EnquiryForm() {
               type="button"
               aria-pressed={occasion === o}
               onClick={() => setOccasion(o)}
-              className={cn("min-h-11 rounded-full px-4 text-sm font-semibold transition-colors", occasion === o ? "bg-saffron text-night" : "bg-night hover:text-saffron")}
+              className={cn("min-h-11 rounded-full px-4 text-sm font-semibold transition-colors", occasion === o ? "bg-gold text-night" : "bg-night hover:text-gold")}
             >
               {o}
             </button>
@@ -87,37 +90,43 @@ export function EnquiryForm() {
       </fieldset>
       <label className="block md:col-span-2">
         <span className="label flex justify-between text-mist">
-          Guests <span className="font-display text-xl text-saffron tabular-nums">{guests}</span>
+          Guests <span className="font-display text-xl text-gold tabular-nums">{guests}</span>
         </span>
         <input
           type="range"
-          min={10}
-          max={400}
-          step={10}
+          min={4}
+          max={150}
+          step={1}
           value={guests}
           onChange={(e) => setGuests(Number(e.target.value))}
-          className="mt-4 w-full accent-[var(--color-saffron)]"
+          className="mt-4 w-full accent-[var(--color-gold)]"
         />
       </label>
       <fieldset className="md:col-span-2">
-        <legend className="label text-mist">Food</legend>
+        <legend className="label text-mist">Where</legend>
         <div className="mt-2 flex flex-wrap gap-2">
-          {["Veg & non-veg", "Pure veg"].map((f) => (
+          {VENUES.map((v) => (
             <button
-              key={f}
+              key={v}
               type="button"
-              aria-pressed={food === f}
-              onClick={() => setFood(f)}
-              className={cn("min-h-11 rounded-full px-4 text-sm font-semibold transition-colors", food === f ? "bg-saffron text-night" : "bg-night hover:text-saffron")}
+              aria-pressed={venue === v}
+              onClick={() => setVenue(v)}
+              className={cn("min-h-11 rounded-full px-4 text-sm font-semibold transition-colors", venue === v ? "bg-gold text-night" : "bg-night hover:text-gold")}
             >
-              {f}
+              {v}
             </button>
           ))}
         </div>
       </fieldset>
       <label className="block md:col-span-2">
+        <span className="label flex items-center gap-2 text-mist">
+          <Icon name="music" className="h-4 w-4 text-gold" /> A song for the occasion? <span className="normal-case tracking-normal">(optional)</span>
+        </span>
+        <input name="song" placeholder="e.g. “Tum Jiyo Hazaaron Saal” for Priya’s 30th" className={field} />
+      </label>
+      <label className="block md:col-span-2">
         <span className="label text-mist">Anything else?</span>
-        <textarea name="notes" rows={3} placeholder="Timing, decoration, cake, special requests…" className={cn(field, "py-3")} />
+        <textarea name="notes" rows={3} placeholder="Timing, decoration, cake, kids, special requests…" className={cn(field, "py-3")} />
       </label>
       <div className="relative md:col-span-2">
         <button ref={button} type="submit" className="inline-flex min-h-12 items-center gap-2 rounded-full bg-whatsapp px-7 font-semibold text-night">
@@ -129,7 +138,7 @@ export function EnquiryForm() {
               key={i}
               data-petal
               className="absolute h-3 w-2 rounded-[60%_40%_60%_40%] opacity-0"
-              style={{ background: i % 3 === 0 ? "#f06a1f" : i % 3 === 1 ? "#f4a521" : "#e0392b" }}
+              style={{ background: i % 3 === 0 ? "#9b7bff" : i % 3 === 1 ? "#f2b544" : "#ff4d7d" }}
             />
           ))}
         </div>

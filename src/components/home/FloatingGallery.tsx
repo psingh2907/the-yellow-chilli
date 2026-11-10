@@ -46,7 +46,7 @@ async function dishTexture(THREE: typeof import("three"), name: string, price: n
   canvas.width = size;
   canvas.height = size * 1.25;
   const ctx = canvas.getContext("2d")!;
-  ctx.fillStyle = "#151a30";
+  ctx.fillStyle = "#21122a";
   ctx.beginPath();
   ctx.roundRect(0, 0, canvas.width, canvas.height, 36);
   ctx.fill();
@@ -54,13 +54,13 @@ async function dishTexture(THREE: typeof import("three"), name: string, price: n
   img.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
   await img.decode();
   ctx.drawImage(img, 36, 30, size - 72, (size - 72) * 1.04);
-  ctx.fillStyle = "#fbf3e4";
+  ctx.fillStyle = "#fbf3e8";
   // next/font renames families, so read the real one from the CSS variable.
   const family = getComputedStyle(document.documentElement).getPropertyValue("--font-bricolage").trim() || "system-ui, sans-serif";
-  ctx.font = `700 38px ${family}`;
+  ctx.font = `700 ${name.length > 20 ? 30 : 38}px ${family}`;
   ctx.textAlign = "center";
-  ctx.fillText(name.length > 22 ? `${name.slice(0, 21)}…` : name, size / 2, size * 1.25 - 66);
-  ctx.fillStyle = "#f4a521";
+  ctx.fillText(name.length > 28 ? `${name.slice(0, 27)}…` : name, size / 2, size * 1.25 - 66);
+  ctx.fillStyle = "#f2b544";
   ctx.font = "600 30px system-ui, sans-serif";
   ctx.fillText(`₹${price}`, size / 2, size * 1.25 - 24);
   const tex = new THREE.CanvasTexture(canvas);
@@ -70,8 +70,8 @@ async function dishTexture(THREE: typeof import("three"), name: string, price: n
 }
 
 /**
- * "The floating thali" (after Pahāri's floating gallery): the signature
- * dishes hang in 3D space. Drag to spin, with momentum (Draggable +
+ * "The floating thali" (after Pahāri's floating gallery): the Veerji's
+ * favourites hang in 3D space. Drag to spin, with momentum (Draggable +
  * Inertia on an invisible proxy, read by the render loop). The buttons
  * re-arrange the dishes between a ring, a sphere and a spiral, each plate
  * tweened to its new spot with a small stagger.
@@ -176,8 +176,8 @@ export function FloatingGallery() {
         ray.setFromCamera(ndc, camera);
         const hit = ray.intersectObjects(meshes, false)[0]?.object as T.Mesh | undefined;
         if (hit !== hovered) {
-          if (hovered) gsap.to(hovered.scale, { x: 1, y: 1, duration: 0.4, ease: "chilli" });
-          if (hit) gsap.to(hit.scale, { x: 1.18, y: 1.18, duration: 0.4, ease: "chilli" });
+          if (hovered) gsap.to(hovered.scale, { x: 1, y: 1, duration: 0.4, ease: "groove" });
+          if (hit) gsap.to(hit.scale, { x: 1.18, y: 1.18, duration: 0.4, ease: "groove" });
           hovered = hit ?? null;
           el.style.cursor = hit ? "pointer" : "grab";
         }
@@ -210,9 +210,9 @@ export function FloatingGallery() {
     <section aria-labelledby="gallery-title" className="relative overflow-hidden bg-night py-24 text-cream md:py-32">
       <div className="container-x flex flex-col justify-between gap-6 md:flex-row md:items-end">
         <div>
-          <p className="label text-saffron">The signatures</p>
+          <p className="label text-gold">VRJ favourites</p>
           <h2 id="gallery-title" data-split className="display-lg mt-3 max-w-[14ch]">
-            Twelve dishes people drive back for.
+            Twelve plates Satna orders again.
           </h2>
         </div>
         {webgl && (
@@ -225,7 +225,7 @@ export function FloatingGallery() {
                 aria-pressed={layout === l.id}
                 className={cn(
                   "min-h-11 rounded-full border px-5 text-sm font-semibold transition-colors",
-                  layout === l.id ? "border-saffron bg-saffron text-night" : "border-cream/25 hover:border-saffron hover:text-saffron",
+                  layout === l.id ? "border-gold bg-gold text-night" : "border-cream/25 hover:border-gold hover:text-gold",
                 )}
               >
                 {l.label}
@@ -241,7 +241,7 @@ export function FloatingGallery() {
             <li key={d.name} className="rounded-3xl bg-night-soft p-4">
               <DishArt spec={d.spec} className="w-full" />
               <p className="mt-3 font-display font-bold">{d.name}</p>
-              <p className="text-sm text-saffron">₹{d.price}</p>
+              <p className="text-sm text-gold">₹{d.price}</p>
             </li>
           ))}
         </ul>
@@ -250,14 +250,14 @@ export function FloatingGallery() {
           <canvas
             ref={canvas}
             data-cursor="Drag"
-            aria-label="Signature dishes floating in 3D. Drag to spin; tap a dish to read about it."
+            aria-label="Favourite dishes floating in 3D. Drag to spin; tap a dish to read about it."
             className="h-[56svh] min-h-[24rem] w-full cursor-grab touch-pan-y opacity-0 transition-opacity duration-700 md:h-[70svh] md:min-h-[28rem]"
           />
           <div ref={proxy} className="pointer-events-none absolute top-0 left-0 h-px w-px opacity-0" aria-hidden="true" />
           <div aria-live="polite" className="pointer-events-none absolute inset-x-0 bottom-4 flex justify-center px-4">
             <div className="max-w-md rounded-2xl bg-night/90 px-6 py-4 text-center">
               <p className="font-display text-xl font-bold">
-                {dish.name} <span className="text-saffron">₹{dish.price}</span>
+                {dish.name} <span className="text-gold">₹{dish.price}</span>
               </p>
               {dish.note && <p className="mt-1 text-sm text-mist">{dish.note}</p>}
             </div>

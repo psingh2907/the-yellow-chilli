@@ -1,34 +1,35 @@
 @import "tailwindcss";
 
 /* ─── Design tokens ─────────────────────────────────────────────────────
-   From The Yellow Chilli's own brand site: a deep night-navy stage, a
-   saffron/marigold accent (the yellow chilli itself) and a red chilli for
-   heat. Cream and paper carry the light sections. */
+   Veerji's is a cafe by day and a music room by night: a deep plum stage,
+   warm brass-gold for the spotlight and the thali, a neon rose for the club
+   hours, and the green of the pure-veg mark. Cream and paper carry the
+   light sections. */
 @theme {
-  --color-night: #0d1020;
-  --color-night-soft: #151a30;
-  --color-night-line: #262c48;
-  --color-saffron: #f4a521;
-  --color-saffron-light: #ffd27a;
-  --color-saffron-deep: #b06c00; /* saffron as text on light (AA) */
-  --color-chilli: #e0392b;
-  --color-chilli-deep: #a3221b;
-  --color-leaf: #3f8f4f;
-  --color-cream: #fbf3e4;
-  --color-paper: #f5e9d3;
-  --color-ink: #19130f;
-  --color-muted: #6b5d4f; /* secondary text on light */
-  --color-mist: #a7accb; /* secondary text on dark */
+  --color-night: #140a18;
+  --color-night-soft: #21122a;
+  --color-night-line: #3a2444;
+  --color-gold: #f2b544;
+  --color-gold-light: #ffd98a;
+  --color-gold-deep: #94570a; /* gold as text on light (AA) */
+  --color-rose: #ff4d7d;
+  --color-rose-deep: #b3264f;
+  --color-leaf: #2f9e57;
+  --color-cream: #fbf3e8;
+  --color-paper: #f3e6d6;
+  --color-ink: #1a1018;
+  --color-muted: #6e5a63; /* secondary text on light */
+  --color-mist: #b9a7c2; /* secondary text on dark */
   --color-whatsapp: #25d366;
 
-  --ease-chilli: cubic-bezier(0.06, 0.72, 0.18, 1);
+  --ease-groove: cubic-bezier(0.06, 0.72, 0.18, 1);
   --ease-simmer: cubic-bezier(0.5, 0, 0.18, 1);
 }
 
 @theme inline {
   --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-mukta), ui-sans-serif, system-ui, sans-serif;
-  /* Devanagari display: चुनना · पकाना · परोसना */
+  /* Devanagari display: खाओ · गाओ · मनाओ */
   --font-deva: var(--font-yatra), var(--font-mukta), serif;
 }
 
@@ -48,12 +49,12 @@
   }
 
   ::selection {
-    background: var(--color-saffron);
+    background: var(--color-gold);
     color: var(--color-night);
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-saffron);
+    outline: 2px solid var(--color-gold);
     outline-offset: 3px;
     border-radius: 2px;
   }

@@ -1,6 +1,6 @@
 /**
- * Spice dust: chilli flakes, saffron threads, cumin and turmeric drifting
- * around the hero chilli. One draw call (THREE.Points with a small shader).
+ * Party confetti and stage glitter drifting around the hero record. One
+ * draw call (THREE.Points with a small shader).
  *
  *  uBurst 0 → 1  scatters every flake outward along its own direction
  *                (driven by ScrollTrigger as the hero scrolls away).
@@ -9,7 +9,7 @@
 import type * as T from "three";
 import type { Three } from "./stage";
 
-const PALETTE = ["#f4a521", "#e0392b", "#a3221b", "#ffd27a", "#8a5a2b", "#d9c27a", "#c94a16"];
+const PALETTE = ["#f2b544", "#ffd98a", "#ff4d7d", "#b3264f", "#fbf3e8", "#9b7bff", "#2f9e57"];
 
 const vertex = /* glsl */ `
   uniform float uTime;
@@ -61,7 +61,7 @@ const fragment = /* glsl */ `
   }
 `;
 
-export function createSpice(THREE: Three, count: number, pixelRatio: number): T.Points<T.BufferGeometry, T.ShaderMaterial> {
+export function createConfetti(THREE: Three, count: number, pixelRatio: number): T.Points<T.BufferGeometry, T.ShaderMaterial> {
   const positions = new Float32Array(count * 3);
   const dirs = new Float32Array(count * 3);
   const seeds = new Float32Array(count);
@@ -70,7 +70,7 @@ export function createSpice(THREE: Three, count: number, pixelRatio: number): T.
   const v = new THREE.Vector3();
 
   for (let i = 0; i < count; i++) {
-    // A loose cloud around the chilli: denser near it, thinning outward.
+    // A loose cloud around the record: denser near it, thinning outward.
     v.randomDirection();
     const r = 1.2 + Math.pow(Math.random(), 0.7) * 3.2;
     positions.set([v.x * r * 1.5, v.y * r, v.z * r * 0.8 - 0.5], i * 3);

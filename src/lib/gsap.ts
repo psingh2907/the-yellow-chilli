@@ -5,7 +5,7 @@
  * them, so pages only download what they animate.
  *
  * Brand motion voice:
- *   "chilli"  sharp start, long settle: reveals, arrivals
+ *   "groove"  sharp start, long settle: reveals, arrivals
  *   "simmer"  slow and heavy: big moves, scene changes
  *   "heat"    a wiggle that dies away: shakes, sizzle
  */
@@ -22,8 +22,8 @@ if (typeof window !== "undefined") {
   // Phones: the address bar sliding in/out resizes the viewport; re-measuring
   // every section then makes pinned sections jump mid-scroll. Ignore it.
   ScrollTrigger.config({ ignoreMobileResize: true });
-  if (!CustomEase.get("chilli")) {
-    CustomEase.create("chilli", "M0,0 C0.06,0.72 0.18,1 1,1");
+  if (!CustomEase.get("groove")) {
+    CustomEase.create("groove", "M0,0 C0.06,0.72 0.18,1 1,1");
     CustomEase.create("simmer", "M0,0 C0.5,0 0.18,1 1,1");
     CustomWiggle.create("heat", { wiggles: 7, type: "easeOut" });
   }

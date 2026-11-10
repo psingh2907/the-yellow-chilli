@@ -12,13 +12,13 @@ import { HeroScene } from "./HeroScene";
 
 gsap.registerPlugin(ScrambleTextPlugin);
 
-const CRAVINGS = ["Lalla Mussa Dal", "Dilli Wala Butter Chicken", "Laal Maas", "Murgh Noormahal Biryani", "Dahi Ke Kabab", "Gulab-e-Gulkand"];
+const CRAVINGS = ["VRJ Special Thali", "Paneer Sizzler", "Dahi Sholey", "Stuffed Chur Chur Naan", "Veg Kothe", "Cold Coffee"];
 
 /**
  * First screen. The headline rises out of masked lines (SplitText), a
  * "today's craving" line scrambles through signature dishes (ScrambleText,
- * with Devanagari letters as the scramble), and the whole layer drifts up
- * and fades as the 3D chilli bursts behind it.
+ * with Devanagari letters and notes as the scramble), and the whole layer
+ * drifts up and fades as the 3D record flips away behind it.
  */
 export function Hero() {
   const root = useRef<HTMLElement>(null);
@@ -33,14 +33,14 @@ export function Hero() {
       // Built here (inside the GSAP context, so they're cleaned up with the
       // page) and started once the loader lifts.
       const intro = gsap
-        .timeline({ paused: true, defaults: { ease: "chilli" } })
+        .timeline({ paused: true, defaults: { ease: "groove" } })
         .to(headline.words, { yPercent: 0, duration: 1.3, stagger: 0.07 })
         .to("[data-hero-fade]", { opacity: 1, y: 0, duration: 1, stagger: 0.08 }, "-=0.9");
 
       const cycle = gsap.timeline({ repeat: -1, paused: true, delay: 1.6 });
       const word = root.current?.querySelector("[data-craving]");
       CRAVINGS.forEach((dish) => {
-        cycle.to(word ?? {}, { duration: 1.1, scrambleText: { text: dish, chars: "मिर्चीमसालातड़काघीदाल", speed: 0.6, revealDelay: 0.25 } }).to({}, { duration: 1.8 });
+        cycle.to(word ?? {}, { duration: 1.1, scrambleText: { text: dish, chars: "♪♫गानाखानावीरजी", speed: 0.6, revealDelay: 0.25 } }).to({}, { duration: 1.8 });
       });
 
       // The scramble only runs while the hero is on screen (and after the intro).
@@ -78,23 +78,26 @@ export function Hero() {
 
   return (
     <section ref={root} className="grain relative min-h-svh overflow-hidden bg-night">
-      <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(60%_55%_at_70%_45%,rgba(244,165,33,0.18),transparent_70%),radial-gradient(40%_40%_at_15%_90%,rgba(224,57,43,0.16),transparent_70%)]" />
+      <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(60%_55%_at_70%_45%,rgba(242,181,68,0.16),transparent_70%),radial-gradient(45%_45%_at_10%_95%,rgba(255,77,125,0.2),transparent_70%),radial-gradient(30%_30%_at_95%_5%,rgba(155,123,255,0.14),transparent_70%)]" />
       <HeroScene />
 
       {/* min-h + top padding: on short screens the content grows the hero instead of sliding under the header. */}
       <div data-hero-content className="relative z-10 flex min-h-svh flex-col justify-end pt-36 pb-28 lg:pb-16">
         <div className="container-x">
-          <p data-hero-fade className="label mb-6 text-saffron">
-            Master Chef Sanjeev Kapoor&rsquo;s · {business.branch}
+          <p data-hero-fade className="label mb-6 text-gold">
+            {business.fullName} · {business.branch}
           </p>
           <h1 data-hero-title className="display-xl max-w-[12ch] text-cream">
-            Redefining Indian food.
+            Food that <span className="text-gold">sings.</span>
           </h1>
+          <p data-hero-fade className="mt-6 max-w-xl text-lg leading-relaxed text-cream/85 md:text-xl">
+            A pure-veg kitchen, live music by Veerji himself, and a room that turns every dinner into a little celebration.
+          </p>
           {/* The dish name changes every few seconds: it gets its own line that
               never wraps, so the hero's height (and the headline above) stays put. */}
-          <p data-hero-fade className="mt-6 flex flex-col font-display text-xl text-mist sm:flex-row sm:items-baseline sm:gap-x-3 md:text-2xl">
+          <p data-hero-fade className="mt-4 flex flex-col font-display text-xl text-mist sm:flex-row sm:items-baseline sm:gap-x-3 md:text-2xl">
             Today&rsquo;s craving:
-            <span data-craving className="font-semibold whitespace-nowrap text-saffron">
+            <span data-craving className="font-semibold whitespace-nowrap text-gold">
               {CRAVINGS[0]}
             </span>
           </p>
@@ -102,18 +105,21 @@ export function Hero() {
             <Button href="/menu" icon="book">
               See the menu
             </Button>
-            <Button href="/visit" variant="outline" icon="pin" className="text-cream">
-              Find us on NH-75
+            <Button href="/parties" variant="outline" icon="music" className="text-cream">
+              Plan a party
             </Button>
           </div>
           <div data-hero-fade className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-mist">
             <OpenStatus />
             <span className="inline-flex items-center gap-1.5">
-              <Icon name="star" className="h-4 w-4 text-saffron" />
+              <Icon name="star" className="h-4 w-4 text-gold" />
               {business.ratings.google.score} · {business.ratings.google.count.toLocaleString("en-IN")} Google reviews
             </span>
             <span className="inline-flex items-center gap-1.5">
-              <Icon name="parking" className="h-4 w-4 text-saffron" /> Free parking
+              <span className="inline-flex h-3.5 w-3.5 items-center justify-center border-2 border-leaf">
+                <span className="h-1.5 w-1.5 rounded-full bg-leaf" />
+              </span>
+              Pure veg
             </span>
           </div>
         </div>
@@ -121,7 +127,7 @@ export function Hero() {
 
       <div aria-hidden="true" className="absolute right-6 bottom-8 z-10 hidden flex-col items-center gap-3 text-mist lg:flex">
         <span className="label [writing-mode:vertical-rl]">Scroll</span>
-        <span className="h-14 w-px animate-pulse bg-gradient-to-b from-saffron to-transparent" />
+        <span className="h-14 w-px animate-pulse bg-gradient-to-b from-gold to-transparent" />
       </div>
     </section>
   );

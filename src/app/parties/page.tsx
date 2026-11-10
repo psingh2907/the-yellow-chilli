@@ -1,42 +1,42 @@
 import type { Metadata } from "next";
-import { EnquiryForm } from "@/components/events/EnquiryForm";
-import { Moments } from "@/components/events/Moments";
-import { Steps } from "@/components/events/Steps";
-import { BanquetTeaser } from "@/components/home/BanquetTeaser";
+import { PartyTeaser } from "@/components/home/PartyTeaser";
+import { EnquiryForm } from "@/components/parties/EnquiryForm";
+import { Moments } from "@/components/parties/Moments";
+import { Steps } from "@/components/parties/Steps";
 import { Icon, type IconName } from "@/components/ui/Icon";
 import { PageHero } from "@/components/ui/PageHero";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
-  title: "Banquets & Events",
+  title: "Parties & Celebrations",
   description:
-    "Weddings, birthdays, kitty parties and office dinners at The Yellow Chilli, Satna: a banquet hall, the full Sanjeev Kapoor menu, catering and free parking on NH-75.",
-  path: "/events",
+    "Birthdays, anniversaries, kitty parties and baby showers at Veerji's, Satna: a private room or the whole floor, the full pure-veg menu, and live music with a song dedicated to your guest of honour.",
+  path: "/parties",
 });
 
 const FACTS: Array<{ icon: IconName; title: string; text: string }> = [
-  { icon: "users", title: "Big or small", text: "From a private dining room for the family to the banquet hall for a full function." },
-  { icon: "book", title: "The full menu", text: "Build your spread from the same menu as the restaurant, or ask about set menus." },
-  { icon: "parking", title: "Free parking", text: "A large lot on site, right on NH-75: easy for guests coming from across Satna." },
-  { icon: "flame", title: "Catering", text: "The kitchen also caters, if you'd rather celebrate somewhere else." },
+  { icon: "mic", title: "Live music", text: "Veerji sings for the room. Ask for a song for the birthday girl, the couple, or the whole table." },
+  { icon: "users", title: "Big or small", text: "A private dining room for the family, or the floor for a proper party." },
+  { icon: "book", title: "The full veg menu", text: "Starters, sizzlers, thalis, Chinese and shakes, or a set menu for the group." },
+  { icon: "cake", title: "Bring the cake", text: "Kids' birthdays welcome, with high chairs and a kids' menu. Ask about decoration." },
 ];
 
-export default function EventsPage() {
+export default function PartiesPage() {
   return (
     <>
       <PageHero
-        label="Banquets & celebrations"
+        label="Parties & celebrations"
         title={
           <>
-            Your people. <span className="text-saffron">Our tandoor.</span>
+            Your people. <span className="text-gold">Our playlist.</span>
           </>
         }
-        intro="Weddings and receptions, birthdays, kitty parties, office dinners. Tell us the occasion and the headcount; we'll plan the food and the hall around it."
+        intro="Birthdays, anniversaries, kitty parties, baby showers. Tell us the occasion and the headcount; we'll plan the food, the room and the songs around it."
       />
 
       <section aria-labelledby="moments-title" className="bg-night pb-24 text-cream">
         <div className="container-x">
-          <h2 id="moments-title" className="label text-saffron">
+          <h2 id="moments-title" className="label text-gold">
             How an evening goes · tap a card
           </h2>
           <div className="mt-6">
@@ -45,7 +45,7 @@ export default function EventsPage() {
         </div>
       </section>
 
-      <BanquetTeaser />
+      <PartyTeaser />
 
       <section aria-labelledby="facts-title" className="bg-night py-24 text-cream md:py-32">
         <div className="container-x">
@@ -55,7 +55,7 @@ export default function EventsPage() {
           <ul className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4" data-reveal-stagger>
             {FACTS.map((f) => (
               <li key={f.title} className="rounded-3xl bg-night-soft p-6">
-                <Icon name={f.icon} className="h-8 w-8 text-saffron" />
+                <Icon name={f.icon} className="h-8 w-8 text-gold" />
                 <h3 className="mt-4 font-display text-xl font-bold">{f.title}</h3>
                 <p className="mt-2 text-sm text-mist">{f.text}</p>
               </li>
@@ -70,11 +70,13 @@ export default function EventsPage() {
       <section id="enquire" aria-labelledby="enquire-title" className="grain bg-night pb-24 text-cream md:pb-32">
         <div className="container-x grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
           <div>
-            <p className="label text-saffron">Enquire</p>
+            <p className="label text-gold">Book a party</p>
             <h2 id="enquire-title" data-split className="display-lg mt-3">
               Let&rsquo;s plan it.
             </h2>
-            <p className="mt-4 max-w-md text-lg text-mist">Fill this in and it opens WhatsApp with everything written out. The team will reply with availability and menu options.</p>
+            <p className="mt-4 max-w-md text-lg text-mist">
+              Fill this in and it opens WhatsApp with everything written out, song request included. The team will reply with availability and menu options.
+            </p>
           </div>
           <EnquiryForm />
         </div>

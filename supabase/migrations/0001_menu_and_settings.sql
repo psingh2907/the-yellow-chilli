@@ -4,7 +4,7 @@
 -- Run this once in Supabase: Dashboard → SQL Editor → New query → paste → Run.
 --
 -- What it creates
---   menu_categories   one row per menu section ("Soups", "Tandoor"...)
+--   menu_categories   one row per menu section ("Thalis", "Sizzlers"...)
 --   menu_items        one row per dish, linked to its category
 --   restaurant_settings  a single row with hours, dish of the day, etc.
 --
@@ -19,7 +19,7 @@
 create type diet as enum ('veg', 'egg', 'nonveg');
 
 create table menu_categories (
-  id          text primary key,            -- "soups", matches the old menu.ts ids
+  id          text primary key,            -- "thali", matches the menu.ts ids
   title       text not null,
   blurb       text not null default '',
   sort_order  int  not null default 0,     -- order on the menu page
@@ -48,8 +48,8 @@ create index menu_items_category_idx on menu_items (category_id, sort_order);
 -- One row only: the "id = 1" check makes a second row impossible.
 create table restaurant_settings (
   id               int primary key default 1 check (id = 1),
-  opens            time not null default '11:30',
-  closes           time not null default '23:30',
+  opens            time not null default '11:00',
+  closes           time not null default '23:00',
   closed_today     boolean not null default false,  -- holiday override
   dish_of_the_day  text,                            -- drives "Today's craving"
   updated_at       timestamptz not null default now()

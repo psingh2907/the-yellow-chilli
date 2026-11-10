@@ -6,10 +6,10 @@ export interface NavLink {
 }
 
 export const navLinks: NavLink[] = [
-  { href: "/menu", label: "Menu", hint: "About 240 dishes, a heat guide and a platter builder" },
-  { href: "/story", label: "One Plate", hint: "A scroll film: from spice market to your table" },
-  { href: "/events", label: "Banquets", hint: "Weddings, birthdays, office dinners" },
-  { href: "/visit", label: "Visit", hint: "NH-75, Panna Naka Road · open till 11:30 pm" },
+  { href: "/menu", label: "Menu", hint: "About 200 pure-veg dishes, a heat guide and a thali builder" },
+  { href: "/story", label: "One Thali", hint: "A scroll film: from the spice box to the mic" },
+  { href: "/parties", label: "Parties", hint: "Birthdays, anniversaries, kitty parties, with a song" },
+  { href: "/visit", label: "Visit", hint: "R.S Tower, Railway Colony · open till 11 pm" },
 ];
 
 export const pagePaths = navLinks.map((l) => l.href);

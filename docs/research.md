@@ -1,57 +1,72 @@
-# The Yellow Chilli, Satna — Research Notes (collected 2026-10-05)
+# Veerji's Cafe Club & Restaurant, Satna — Research Notes (collected 2026-10-07)
+
+## Why this restaurant
+We first built the prototype for The Yellow Chilli, but it already has a website (the franchise's theyellowchilli.com). We checked the top Google Maps results for "restaurants in Satna" and picked the busiest, best-rated one with **no website of its own**.
+
+| Restaurant | Google rating | Website? |
+|---|---|---|
+| **Veerji Cafe Club & Restaurant** | **4.6 (1,012)** | **None** (Instagram, JustDial, Zomato, magicpin only; Google shows "Add website") |
+| MERAKI (Hotel Uma Residency) | 4.8 (909) | Covered by hotelumaresidency.com |
+| Handi Bhoj | 4.9 (152) | None (Google listing unclaimed) — **next target** |
+| HIGHWAY Hustle Fun & Food | 4.2 (354) | None — **next target** |
+| Boss Restaurant | 3.7 (555) | None |
+| UP N ABOVE | 4.6 (306) | Free Google Sites page only |
+| Baithak Family Restaurant | 4.1 (243) | Instagram only |
+| Vaishno Punjab | 4.0 (750) | Facebook page only |
+| The Sky View Rooftop | 3.9 (291) | skyviewsatna.com |
 
 ## Identity
-- **Official franchise outlet** of *The Yellow Chilli* by Master Chef Sanjeev Kapoor (SK Restaurants). Listed on theyellowchilli.com/outlets.html.
-- Brand tagline: **"Redefining Indian food"**. Brand concept: a gastronomic tour of India — regional dishes Chef Sanjeev Kapoor discovered on his travels.
-- Google Maps name: "The Yellow Chili" / थे येलो चिली. Description: "Stylish chain restaurant serving Mughlai, Punjabi and dishes from India's Northwestern frontier."
-- Brand look (official site): dark navy/charcoal backgrounds, saffron/marigold-orange accent (CTA buttons), lowercase "the yellow chilli" wordmark with chilli dots over the "o".
-- The Satna outlet's storefront sign is lit in red/white at night.
+- Names in use: **"Veerji cafe club & restaurant"** (Google; Hindi: वीरजी कैफे क्लब & रेस्टोरेंट), **"Veerji's Restaurant"** (JustDial, Zomato), **"Veerji's Cafe & Restaurant"** (magicpin, Mindtrip), Instagram **@veerjisatna** "Veerji's Cafe Club & Restaurant | Great Food • Live Music • Party • Club Vibes | Satna Party Venue". These are all **one venue**.
+- Owner: **Adityaveer Singh** ("Veerji"). Reviews name him as a warm, hands-on host who **sings live** for the room ("soulful live music by Veerji himself"). JustDial's review summary: "Live music performances by Aditya Veer were highly appreciated."
+- Menu items carry the house prefix **"VRJ"** (VRJ Special Thali, VRJ Special Paneer Parinda…).
+- In business about 4 years (JustDial listing created 12 Oct 2022).
+- FSSAI licence no. 21422450001460 (on the Zomato listing).
 
-## Contact & location
-- Address: NH-75, Panna Naka Road, Near Peptech City, Satna, MP 485001 (Sohawal area). Edge of the city, about 4.5 km from the railway station.
-- Coordinates: 24.576493, 80.783028 (Plus code HQGM+H6)
-- Phones seen: +91 93290 62819 (TripAdvisor/Zomato), 076722 96777 (Google), 97540 47000 (official brand site), 76722 96888 (magicpin), 91798 36797 (Zomato alt)
-- Email: tyc.satna@gmail.com (via directory)
-- Hours: 11:30 AM – 11:30 PM daily (Google). magicpin says 12–10:30 PM. **Owner needs to confirm.**
-- TripAdvisor website link → theyellowchilli.me (does not load)
-- Facebook: facebook.com/p/The-Yellow-Chilli-Satna-100063960189040
+## Sister venue: Bikaner by Veerji's
+- Google: "Bikaner by VEERJI'S" (बीकानेर बाय वीरजी'स), 4.4 (7 reviews), **no website**.
+- Address: No. 16, Rajendra Nagar Gali (ward 27, Gali 16, Rajendra Nagar Rd), Satna 485001. Phone **095844 39543** — the same number Zomato lists for Veerji's Restaurant, which ties the two together.
+- Instagram **@bikanerbyveerjis** (2,069 followers): "Authentic Flavours | Fine Dining · Birthdays • Parties • Family Celebrations". Recent posts (Sept–Oct 2026) are birthdays, a baby shower, Ganesh festival.
+- **Open question:** the same address was "Bikaner Express | Taste of Rajasthan in Satna" (a franchise with bikanerexpress.com; pure veg, Rajasthani sweets, snacks, thalis). Old posts on the Bikaner by Veerji's account carry the Bikaner Express name, so it looks like Veerji's took over or rebranded the outlet around Aug–Sep 2026. The site only says "Bikaner by Veerji's, Rajendra Nagar" and does not mention Bikaner Express.
+
+## Contact & location (main venue)
+- Address: **First floor, R.S Tower, Railway Colony, Satna, MP 485001**. JustDial adds: "Circuit House, behind Automobile Parts, near R S Tower, Railway Road". District/Zomato: "Sarkit (Circuit) House Chowk".
+- Coordinates 24.5740858, 80.8326484 · Plus code HRFM+J3 · Google CID 18410845437421814191.
+- **1.1 km / 4 min from Satna Junction** (via Railway Station Rd and NH 135BG, Google Maps).
+- Phones: **088188 88385** (Google, Instagram), 89825 45800 and 87701 89646 (Instagram bio), 95844 39543 (Zomato, also Bikaner by Veerji's).
+- Hours: **11 am – 11 pm** (Wanderboat: Wed 11 AM–11 PM; JustDial and Google: "closes 11 pm"). Assumed daily.
+- No email found.
 
 ## Ratings
-- Google: **3.9★ from 1,255 reviews** (569 five-star, 322 four, 178 three, 79 two, 107 one)
-- Zomato: 3.8 dining (12), **4.0 delivery (909)**
-- Justdial: 3.8 (about 1,255)
-- TripAdvisor: unclaimed, 0 reviews
+- Google **4.6★ from 1,012 reviews**; review topic chips: "live music" 78, "party" 64, "birthday party" 17, "party venue" 8.
+- JustDial **4.9★ from 993 ratings**.
+- Zomato delivery 4.0 (3 ratings), no dining ratings.
+- Price: ₹200–1,000 per person (Google, 43 reports).
 
-## Price
-- ₹200–1,000 per person (Google); Zomato mains ₹345–625, starters ₹375–745, breads ₹35–195
+## Google "About" attributes
+Dine-in, takeaway, delivery, drive-through · live music, fireplace, great coffee, great dessert, great tea selection · private dining room, all-you-can-eat, happy-hour food, small plates, catering · vegetarian / vegan options ("vegetarian options only") · casual, cozy, quiet, romantic, trendy, upmarket · family friendly, groups, university students · reservations accepted (dinner recommended) · cards, Google Pay, NFC · good for kids and kids' birthdays, high chairs, kids' menu · free parking lot and street parking · wheelchair-accessible seating and toilet · free Wi-Fi.
+Google also tags "Alcohol" and "Cocktails", but Zomato marks the mojitos "[Non Alcoholic]". **The site makes no alcohol claims.**
 
-## Amenities (Google About + reviews)
-- Dine-in, takeaway, delivery, drive-through, catering
-- **Banquet hall** (reviews: an event for about 400 guests was "well managed") and **rooms** (some reviews mention good rooms)
-- Private dining room, big screen for sports, kids' menu, good for kids' birthdays
-- Free parking lot (plenty), wheelchair-accessible seating and toilet
-- Accepts reservations (recommended for lunch and dinner); cards and NFC accepted
-- Atmosphere tags: upmarket, cozy, trendy, quiet; good for groups and families
+## Menu (Zomato, Oct 2026) — pure vegetarian, 204 items
+Thali (2) · Sizzlers (3) · Soups & Salads (20) · Starters (17) · Main Course (34) · Breads (13) · Rice & Biryani (11) · South Indian (9) · Chinese (23) · Fried Rice & Noodles (11) · Pasta (4) · Sandwiches (6) · Snacks (19) · Accompaniments (8) · Drinks (24).
+- **Regular Thali ₹199**: 2 tandoori butter roti, plain rice, dal tadka, paneer kolhapuri, veg mixed, raita, pickle, salad.
+- **VRJ Special Thali ₹299** (Chef's special): tandoori butter roti or lachha paratha, veg pulao, dal tadka, paneer lababdar, jalfrezi, veg mixed, raita, pickle, papad, salad, dessert.
+- Chef's specials: VRJ Special Thali, VRJ Special Paneer Parinda (₹319), VRJ Special Paneer Indian (₹329), VRJ Special Chinese Paneer (₹279), VRJ Special Sandwich (₹159).
+- Sizzlers ₹259–289 with descriptions (veg cutlet / paneer cutlet / Chinese).
+- JustDial prices are rounded up by ₹1 (₹200 vs ₹199); the site uses Zomato's.
+- Google "menu highlights": Veg Kothe, cakes. JustDial files it under "Biryani Restaurants" (Veg Biryani, Veg Dum Biryani).
 
-## Signature dishes (brand-level, all on the Satna menu)
-- **Lalla Mussa Dal** (₹415) — reviewers call it "world famous"
-- **Shaam Savera** (₹485) — spinach kofta with paneer, "sunset to dawn"
-- **Puran Singh Tari Wala Murgh** (₹545) — inspired by a legendary dhaba
-- **Gulab-e-Gulkand** (₹215) — reviewers call it "fabulous"
-- **Dahi Ke Kabab** (₹455), **Murgh Noormahal Biryani** (₹575), **Hyderabadi Dum Gosht Biryani** (₹615), **Nalli Rogan Josh** (₹625), **Dilli Wala Butter Chicken** (₹545), **Laal Maas** (₹575), **Daulat Ki Malai** (₹225)
-- Dishes reviewers mention: Nimbu Mirch Tawa Fish, Chandi Kalyan Chicken, Nizami Tarkari Biryani, veg platter, tandoori items, kebabs, Chilli Paneer, Cheese Chilli Chicken Tikka
-
-## Menu categories (Zomato, about 280 items)
-Soups · Salads · Papad n Raita · Veg Starters · "Not So Veg" Starters · Videshi Delights (Indo-Chinese, pizza, pasta) · Not Veg Starters · Rice & Noodles · Veg Mains (30) · Dals · Meaty Mains (21) · Breads (19) · Rice/Biryani · Desserts · Rajasthani · Coolers · plus seasonal specials (Navratri, Monsoon, Holi, Food Festival, Summer)
-→ Full price list was captured from zomato.com/satna/the-yellow-chilli-satna-locality/order
-
-## Review themes (100 Google reviews read)
-**Praised:** "best/classy restaurant in Satna" · tasty food, good presentation · veg and non-veg variety · ambience ("stunning", "elegant", "cozy") · courteous staff · clean washrooms · banquet and catering · parking · the Sanjeev Kapoor name
-**Criticised:** pricey for Satna ("metro-city rates", ₹60–120 water bottle) · slow service, especially at weekends · small portions · hygiene incidents (mosquito, rat — 2023–25) · mocktails weak · location outside the city centre
-**Site implications:** lead with craft and the chef's recipes to justify the price, show value (platters, thalis, family portions), push table reservations to cut waiting, promote banquets and events, use real photos to signal hygiene, and put directions/landmarks up front.
+## Review themes (Google, JustDial, Wanderboat)
+**Praised:** live music, with songs you can request or dedicate for birthdays and anniversaries · the owner's warmth · "best place for party lovers", birthday and anniversary celebrations, club vibes · cozy, beautiful decor · polite, friendly staff · tasty food, generous portions, reasonable prices · great cold coffee; one traveller rested there 1.5 hours and "nobody rushed me".
+**Criticised (a minority):** occasional rude service or pushy upselling, some dishes too spicy, the odd "worst service" one-liner.
+**Site implications:** lead with the live music and the host; make parties and song dedications easy to book on WhatsApp; show the thali value (₹199) and the long veg menu; put heat levels on dishes; keep the tone warm and personal.
 
 ## Open questions for the owner
-- Hours, a single primary phone/WhatsApp number, and an official Instagram account
-- Are rooms still offered? Banquet capacity?
-- Franchisor brand guidelines and permission to use the logo, the chef's name/likeness and photos
-- Real photos of food, interiors and banquet
+- Which number should take calls and WhatsApp? Are the hours the same every day?
+- Which evenings have live music, and from what time? Can guests request songs in advance?
+- Party capacity of the floor and the private room; decorations or cakes arranged in-house?
+- Is the venue strictly pure veg? (Google tags alcohol/cocktails; the menu shows none.)
+- The relationship between Bikaner by Veerji's and Bikaner Express, and whether to feature it.
+- Logo, real photos, permission to use the owner's name and guest reviews.
+
+## Sources
+Google Maps listing and reviews · justdial.com (menu, reviews) · zomato.com/satna/veerjis-restaurant-satna-locality/order · instagram.com/veerjisatna · instagram.com/bikanerbyveerjis · instagram.com/bikanerexpress.satna · wanderboat.ai · mindtrip.ai · magicpin.in · district.in

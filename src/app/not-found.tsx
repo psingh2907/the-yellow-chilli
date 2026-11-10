@@ -7,10 +7,10 @@ export default function NotFound() {
       label="404"
       title={
         <>
-          This plate is <span className="text-saffron">empty</span>.
+          That song&rsquo;s not on the <span className="text-gold">setlist</span>.
         </>
       }
-      intro="The page you were looking for isn't on the menu. The food, happily, still is."
+      intro="The page you were looking for isn't here. The food and the music, happily, still are."
     >
       <div className="flex flex-wrap gap-3">
         <Button href="/">Back to home</Button>

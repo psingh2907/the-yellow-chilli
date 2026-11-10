@@ -4,6 +4,7 @@ import { Flip } from "gsap/Flip";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { DishArt } from "@/components/ui/DishArt";
+import { RecordArt } from "@/components/ui/RecordArt";
 import { Icon } from "@/components/ui/Icon";
 import { cn } from "@/lib/cn";
 import { gsap, prefersReducedMotion, ScrollSmoother } from "@/lib/gsap";
@@ -15,35 +16,35 @@ const MOMENTS = [
   {
     id: "welcome",
     title: "The welcome",
-    text: "Guests arrive to a hall set up for your occasion. Tell us what you're celebrating and how many are coming, and we'll plan around it.",
-    bg: "from-chilli-deep to-[#5a120d]",
-    art: { kind: "dessert" as const, tone: "#f3e6c8", seed: 2 },
+    text: "Guests walk into a room set for your occasion. Tell us what you're celebrating and how many are coming, and we'll plan the tables around it.",
+    bg: "from-rose-deep to-[#4a0f24]",
+    art: { kind: "shake" as const, tone: "#c8a07a", seed: 2 },
   },
   {
     id: "spread",
     title: "The spread",
-    text: "Starters from the tandoor, curries, biryani, breads and desserts. Choose from the full menu, all veg or veg and non-veg.",
-    bg: "from-saffron-deep to-[#5a3600]",
-    art: { kind: "biryani" as const, tone: "#e3b25a", seed: 4 },
+    text: "Paneer tikka off the tandoor, sizzlers, Chinese, thalis and breads: build it from the full pure-veg menu, or ask for a set menu for the group.",
+    bg: "from-gold-deep to-[#4a2c00]",
+    art: { kind: "thali" as const, tone: "#2f9e57", seed: 4 },
   },
   {
-    id: "toast",
-    title: "The toast",
-    text: "Birthdays, anniversaries, a promotion, a new baby: room for everyone to stand up, raise a glass of lassi and cheer.",
-    bg: "from-[#1d3a2a] to-[#0d1a12]",
-    art: { kind: "kebab" as const, tone: "#c0571f", seed: 6 },
+    id: "song",
+    title: "The song",
+    text: "The lights dim, Veerji picks up the mic, and the next song is for your guest of honour. Tell us the name and the song when you book.",
+    bg: "from-[#3a1a5a] to-[#140a28]",
+    art: "record" as const,
   },
   {
-    id: "send-off",
-    title: "The send-off",
-    text: "Gulab-e-Gulkand and Daulat Ki Malai to finish, and plenty of free parking right outside so nobody has to walk far.",
-    bg: "from-[#2b2f5a] to-night",
-    art: { kind: "dessert" as const, tone: "#f3e6c8", seed: 8 },
+    id: "cake",
+    title: "The cake",
+    text: "Candles, a cake, everyone singing along, and one more song before the night ends. Bring your own cake, or ask us when you book.",
+    bg: "from-[#3b2414] to-night",
+    art: { kind: "cake" as const, tone: "#7a2c14", seed: 8 },
   },
-];
+]
 
 /**
- * Event "moments". Tapping a card expands it to fill the screen: Flip records
+ * Party "moments". Tapping a card expands it to fill the screen: Flip records
  * the card's box, the same card (matched by data-flip-id) is rendered as a
  * full-screen overlay in <body> (fixed positioning can't live inside the
  * smooth-scrolled page), and Flip animates between the two boxes, with the
@@ -62,7 +63,7 @@ export function Moments() {
   useLayoutEffect(() => {
     if (!state.current) return;
     Flip.from(state.current, { targets: "[data-moment], [data-moment-art]", duration: 0.75, ease: "simmer", nested: true, zIndex: 70 });
-    if (open) gsap.from("[data-moment-text]", { opacity: 0, y: 30, duration: 0.6, delay: 0.35, ease: "chilli" });
+    if (open) gsap.from("[data-moment-text]", { opacity: 0, y: 30, duration: 0.6, delay: 0.35, ease: "groove" });
     state.current = null;
   }, [open]);
 
@@ -102,7 +103,7 @@ export function Moments() {
             </span>
           )}
           <span data-moment-art data-flip-id={`${m.id}-art`} className={cn("block", expanded ? "w-[min(70vw,26rem)] justify-self-center" : "w-3/4 justify-self-end")}>
-            <DishArt spec={m.art} className="w-full" />
+            {m.art === "record" ? <RecordArt className="w-full" /> : <DishArt spec={m.art} className="w-full" />}
           </span>
         </span>
       </button>

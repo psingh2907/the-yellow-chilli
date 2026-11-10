@@ -11,9 +11,9 @@ export function FindUs() {
     <section aria-labelledby="find-title" className="grain relative overflow-hidden bg-night py-24 text-cream md:py-32">
       <div className="container-x grid items-center gap-12 lg:grid-cols-[0.8fr_1.2fr]">
         <div>
-          <p className="label text-saffron">Find us</p>
+          <p className="label text-gold">Find us</p>
           <h2 id="find-title" data-split className="display-lg mt-3">
-            {business.distances.stationKm} km from the station. Worth every metre.
+            {business.distances.stationKm} km from the station. Right in town.
           </h2>
           <address className="mt-6 text-lg leading-relaxed text-mist not-italic">{addressLine}</address>
           <ul className="mt-6 space-y-2 text-sm">
@@ -21,10 +21,13 @@ export function FindUs() {
               <OpenStatus />
             </li>
             <li className="flex items-center gap-2">
-              <Icon name="clock" className="h-4 w-4 text-saffron" /> Daily, {hoursText}
+              <Icon name="clock" className="h-4 w-4 text-gold" /> Daily, {hoursText}
             </li>
             <li className="flex items-center gap-2">
-              <Icon name="parking" className="h-4 w-4 text-saffron" /> Free parking on site
+              <Icon name="train" className="h-4 w-4 text-gold" /> About {business.distances.stationMinutes} minutes from Satna Junction
+            </li>
+            <li className="flex items-center gap-2">
+              <Icon name="parking" className="h-4 w-4 text-gold" /> Free parking nearby
             </li>
           </ul>
           <div className="mt-8 flex flex-wrap gap-3">

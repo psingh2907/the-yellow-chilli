@@ -1,9 +1,9 @@
-import { BanquetTeaser } from "@/components/home/BanquetTeaser";
+import { DinSeRaat } from "@/components/home/DinSeRaat";
 import { FindUs } from "@/components/home/FindUs";
 import { FloatingGallery } from "@/components/home/FloatingGallery";
 import { Hero } from "@/components/home/Hero";
-import { Journey } from "@/components/home/Journey";
-import { ShaamSavera } from "@/components/home/ShaamSavera";
+import { PartyTeaser } from "@/components/home/PartyTeaser";
+import { Setlist } from "@/components/home/Setlist";
 import { SpiceMeter } from "@/components/home/SpiceMeter";
 import { Tandoor } from "@/components/home/Tandoor";
 import { Verbs } from "@/components/home/Verbs";
@@ -14,12 +14,12 @@ export default function HomePage() {
     <>
       <Hero />
       <Verbs />
-      <Journey />
-      <ShaamSavera />
+      <Setlist />
+      <DinSeRaat />
       <Tandoor />
       <FloatingGallery />
       <SpiceMeter />
-      <BanquetTeaser />
+      <PartyTeaser />
       <Voices />
       <FindUs />
     </>

@@ -41,11 +41,11 @@ export function PlatterThali() {
   useLayoutEffect(() => {
     if (prefersReducedMotion()) return;
     if (state.current) {
-      Flip.from(state.current, { duration: 0.6, ease: "chilli", nested: true });
+      Flip.from(state.current, { duration: 0.6, ease: "groove", nested: true });
       state.current = null;
     } else if (open && box.current) {
       // Phones: the sheet rises from the dock.
-      gsap.from(box.current, { y: 40, opacity: 0, duration: 0.45, ease: "chilli" });
+      gsap.from(box.current, { y: 40, opacity: 0, duration: 0.45, ease: "groove" });
     }
     if (open) gsap.from("[data-thali-line]", { opacity: 0, x: 20, duration: 0.4, stagger: 0.04, delay: 0.2 });
   }, [open]);
@@ -64,7 +64,7 @@ export function PlatterThali() {
   const total = platterTotal(lines);
   const perPerson = people ? Math.round(total / people) : total;
   const message = [
-    "Hi! I'd like to order from The Yellow Chilli, Satna:",
+    "Hi Veerji's! I'd like to order:",
     ...lines.map((l) => `• ${l.qty} × ${l.name}`),
     `For ${people} ${people === 1 ? "person" : "people"}. Menu total ≈ ₹${total}.`,
   ].join("\n");
@@ -91,7 +91,7 @@ export function PlatterThali() {
           >
             <span className="absolute inset-3 rounded-full border-4 border-[#a07a36]/40" />
             <span className="relative font-display text-2xl font-extrabold text-night">{count}</span>
-            <span className="absolute -top-1 right-0 rounded-full bg-chilli px-2 py-0.5 text-[0.6rem] font-bold tracking-wider text-cream uppercase">Thali</span>
+            <span className="absolute -top-1 right-0 rounded-full bg-rose px-2 py-0.5 text-[0.6rem] font-bold tracking-wider text-cream uppercase">Thali</span>
           </button>
         ) : (
           <div className="p-5">
@@ -138,7 +138,7 @@ export function PlatterThali() {
                   <span className="text-sm text-mist">
                     Total ₹{total}
                     <br />
-                    <span className="font-display text-2xl font-extrabold text-saffron">₹{perPerson}</span> per person
+                    <span className="font-display text-2xl font-extrabold text-gold">₹{perPerson}</span> per person
                   </span>
                   <button type="button" onClick={() => platter.clear()} className="text-xs text-mist underline">
                     Clear

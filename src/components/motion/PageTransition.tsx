@@ -2,12 +2,12 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef } from "react";
-import { ChilliMark } from "@/components/ui/ChilliMark";
+import { MicMark } from "@/components/ui/Mark";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
 
 /**
- * Route changes: a saffron curtain rises over the page (with the chilli
- * spinning in), the route changes underneath, then the curtain carries on
+ * Route changes: a plum curtain rises over the page (with the mic
+ * swinging in), the route changes underneath, then the curtain carries on
  * up and off. Internal link clicks are intercepted for the "cover" half;
  * anything else (back button, modified clicks, new tabs) navigates normally.
  */
@@ -47,7 +47,7 @@ export function PageTransition() {
         .timeline()
         .set(curtain.current, { visibility: "visible", yPercent: 100 })
         .to(curtain.current, { yPercent: 0, duration: 0.55, ease: "power4.inOut" })
-        .fromTo("[data-wipe-chilli]", { rotate: -40, scale: 0.6 }, { rotate: 0, scale: 1, duration: 0.55, ease: "back.out(2)" }, "<0.15")
+        .fromTo("[data-wipe-mic]", { rotate: -40, scale: 0.6 }, { rotate: 0, scale: 1, duration: 0.55, ease: "back.out(2)" }, "<0.15")
         .add(() => {
           router.push(url.pathname + url.search + url.hash);
           // Never leave the curtain down if the navigation stalls or fails.
@@ -67,9 +67,9 @@ export function PageTransition() {
   }, [pathname, lift]);
 
   return (
-    <div ref={curtain} aria-hidden="true" className="invisible fixed inset-0 z-[95] flex items-center justify-center bg-saffron">
-      <span data-wipe-chilli className="inline-block">
-        <ChilliMark className="h-20 w-20" />
+    <div ref={curtain} aria-hidden="true" className="invisible fixed inset-0 z-[95] flex items-center justify-center bg-night">
+      <span data-wipe-mic className="inline-block">
+        <MicMark className="h-20 w-20 drop-shadow-[0_0_30px_rgba(242,181,68,0.45)]" />
       </span>
     </div>
   );

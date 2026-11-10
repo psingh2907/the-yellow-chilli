@@ -20,7 +20,7 @@ export function Faq({ items }: { items: FaqItem[] }) {
     panels.current.forEach((p, k) => {
       if (!p) return;
       const show = k === next;
-      gsap.to(p, { height: show ? "auto" : 0, opacity: show ? 1 : 0, duration: reduced ? 0 : 0.5, ease: "chilli", onComplete: () => ScrollTrigger.refresh() });
+      gsap.to(p, { height: show ? "auto" : 0, opacity: show ? 1 : 0, duration: reduced ? 0 : 0.5, ease: "groove", onComplete: () => ScrollTrigger.refresh() });
     });
     setOpen(next);
   };

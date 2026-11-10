@@ -15,7 +15,7 @@ export function FooterReveal({ children, className }: { children: ReactNode; cla
         y: 48,
         opacity: 0,
         duration: 0.9,
-        ease: "chilli",
+        ease: "groove",
         stagger: 0.09,
         scrollTrigger: { trigger: root.current, start: "top 85%", once: true },
       });
@@ -46,7 +46,7 @@ export function OpenBadge() {
     <span className="inline-flex items-center gap-2 rounded-full bg-cream/[0.07] py-1.5 pr-3.5 pl-2.5 text-xs font-semibold text-cream ring-1 ring-cream/10">
       <span className="relative flex h-2 w-2">
         {open && <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-leaf opacity-70" />}
-        <span className={`relative inline-flex h-2 w-2 rounded-full ${open ? "bg-leaf" : "bg-chilli"}`} />
+        <span className={`relative inline-flex h-2 w-2 rounded-full ${open ? "bg-leaf" : "bg-rose"}`} />
       </span>
       {state?.text ?? `Open daily · till ${formatTime(business.hours.closes)}`}
     </span>

@@ -74,7 +74,7 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
             {
               ...(clip ? { clipPath: "inset(0% 0% 0% 0%)" } : { opacity: 1, y: 0 }),
               duration: clip ? 1.4 : 1.1,
-              ease: "chilli",
+              ease: "groove",
               scrollTrigger: { trigger: el, start: "top 88%", once: true },
             },
           );
@@ -84,7 +84,7 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
           gsap.fromTo(
             group.children,
             { opacity: 0, y: 34 },
-            { opacity: 1, y: 0, duration: 1, ease: "chilli", stagger: 0.08, scrollTrigger: { trigger: group, start: "top 88%", once: true } },
+            { opacity: 1, y: 0, duration: 1, ease: "groove", stagger: 0.08, scrollTrigger: { trigger: group, start: "top 88%", once: true } },
           );
         });
 
@@ -99,7 +99,7 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
                 yPercent: 110,
                 rotate: 4,
                 duration: 1.1,
-                ease: "chilli",
+                ease: "groove",
                 stagger: 0.035,
                 scrollTrigger: { trigger: el, start: "top 86%", once: true },
               }),

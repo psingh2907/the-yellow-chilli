@@ -9,11 +9,11 @@ import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
 gsap.registerPlugin(MotionPathPlugin, Physics2DPlugin, ScrambleTextPlugin);
 
 const KEBABS = [
-  { name: "Murgh Malai Tikka", price: 455, note: "Cream, cheese, cardamom. The gentle one.", color: "#f0d9a8" },
-  { name: "Angara Murgh Tikka", price: 525, note: "Angara means ember. It earns the name.", color: "#b8321c" },
-  { name: "Nawabi Mutton Seekh", price: 495, note: "Minced mutton pressed onto the skewer by hand.", color: "#7a3a1c" },
-  { name: "Zaffrani Paneer Tikka", price: 495, note: "Saffron-marinated paneer, charred at the edges.", color: "#f2b13a" },
-];
+  { name: "Paneer Tikka", price: 229, note: "Yoghurt, spice and charcoal. Where everyone starts.", color: "#e8893a" },
+  { name: "Hariyali Chaap", price: 199, note: "Soya chaap in a green herb marinade, charred at the edges.", color: "#5f9a3a" },
+  { name: "Paneer Malai Tikka", price: 259, note: "Cream, cheese and cardamom. The gentle one.", color: "#f0d9a8" },
+  { name: "VRJ Special Paneer Parinda", price: 319, note: "The chef's own, and the one regulars point at.", color: "#c9461f" },
+]
 
 // Each skewer slides along this curve into the tandoor's mouth.
 const INTO_TANDOOR = "M780,40 C620,10 470,60 420,170";
@@ -108,19 +108,19 @@ export function Tandoor() {
 
   return (
     <section ref={root} aria-labelledby="tandoor-title" className="grain relative min-h-svh overflow-hidden bg-[#140806] text-cream">
-      <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(50%_45%_at_50%_80%,rgba(224,57,43,0.45),transparent_70%)]" />
+      <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(50%_45%_at_50%_80%,rgba(226,65,47,0.45),transparent_70%)]" />
       <div className="relative z-10 container-x grid min-h-svh items-center gap-10 py-28 lg:grid-cols-2">
         <div>
-          <p className="label text-saffron">From the tandoor</p>
+          <p className="label text-gold">From the tandoor</p>
           <h2 id="tandoor-title" className="display-lg mt-3">
             Charcoal, clay
             <br />
-            and patience.
+            and paneer.
           </h2>
           <div className="relative mt-10 min-h-[9rem]">
             {KEBABS.map((k) => (
               <div key={k.name} data-kebab className="motion-safe:absolute motion-safe:inset-0 motion-reduce:mb-6">
-                <p data-scramble className="font-display text-3xl font-bold text-saffron md:text-4xl">
+                <p data-scramble className="font-display text-3xl font-bold text-gold md:text-4xl">
                   {k.name}
                 </p>
                 <p className="mt-2 text-mist">{k.note}</p>
@@ -134,8 +134,8 @@ export function Tandoor() {
           <svg viewBox="0 0 800 1000" className="absolute inset-0 h-full w-full overflow-visible" aria-hidden="true">
             <defs>
               <radialGradient id="mouth" cx="50%" cy="40%">
-                <stop offset="0" stopColor="#ffd27a" />
-                <stop offset="0.45" stopColor="#f4a521" />
+                <stop offset="0" stopColor="#ffd98a" />
+                <stop offset="0.45" stopColor="#f2b544" />
                 <stop offset="1" stopColor="#7a1a0c" />
               </radialGradient>
               <linearGradient id="clay" x1="0" x2="1">
@@ -170,7 +170,7 @@ export function Tandoor() {
           </svg>
           <div className="pointer-events-none absolute top-[21%] left-1/2" aria-hidden="true">
             {Array.from({ length: 26 }, (_, i) => (
-              <span key={i} data-ember className="absolute h-1.5 w-1.5 rounded-full bg-saffron opacity-0 will-change-transform shadow-[0_0_10px_3px_rgba(244,165,33,0.7)]" />
+              <span key={i} data-ember className="absolute h-1.5 w-1.5 rounded-full bg-gold opacity-0 will-change-transform shadow-[0_0_10px_3px_rgba(242,181,68,0.7)]" />
             ))}
           </div>
         </div>

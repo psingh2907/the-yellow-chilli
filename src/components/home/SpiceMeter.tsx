@@ -4,7 +4,7 @@ import { Flip } from "gsap/Flip";
 import { Physics2DPlugin } from "gsap/Physics2DPlugin";
 import { ScrambleTextPlugin } from "gsap/ScrambleTextPlugin";
 import { useLayoutEffect, useRef, useState } from "react";
-import { ChilliMark } from "@/components/ui/ChilliMark";
+import { ChilliIcon } from "@/components/ui/Mark";
 import { allItems, type Heat } from "@/data/menu";
 import { cn } from "@/lib/cn";
 import { lazyDraggable, type LazyDraggable } from "@/lib/draggable";
@@ -13,10 +13,10 @@ import { gsap, prefersReducedMotion, useGSAP } from "@/lib/gsap";
 gsap.registerPlugin(Flip, Physics2DPlugin, ScrambleTextPlugin);
 
 const LEVELS = [
-  { label: "Mild", hint: "Creamy, gentle, kid-friendly.", color: "#3f8f4f", headline: "Pick your heat." },
-  { label: "Medium", hint: "Warm and rounded. Most of the menu lives here.", color: "#f4a521", headline: "A little warmth." },
-  { label: "Hot", hint: "Chilli you can feel. Keep the raita close.", color: "#f06a1f", headline: "Now we're talking." },
-  { label: "Fiery", hint: "Angara, Laal Maas, Jolokia. You were warned.", color: "#e0392b", headline: "Bas! Paani laao!" },
+  { label: "Mild", hint: "Creamy, gentle, kid-friendly.", color: "#2f9e57", headline: "Pick your heat." },
+  { label: "Medium", hint: "Warm and rounded. Most of the menu lives here.", color: "#bd7d10", headline: "A little warmth." },
+  { label: "Hot", hint: "Chilli you can feel. Keep the raita close.", color: "#e05a12", headline: "Now we're talking." },
+  { label: "Fiery", hint: "Dragon Paneer, Angara, Kolhapuri, Schezwan. You were warned.", color: "#e2412f", headline: "Bas! Paani laao!" },
 ] as const;
 
 // Needle angle for each level (the dial spans -90° … 90°).
@@ -26,7 +26,7 @@ const SHOWN = 8;
 
 const picks = ([0, 1, 2, 3] as Heat[]).flatMap((h) =>
   allItems
-    .filter((i) => i.heat === h)
+    .filter((i) => i.heat === h && i.category !== "drinks")
     .sort((a, b) => Number(!!b.signature) - Number(!!a.signature) || b.price - a.price)
     .slice(0, PER_LEVEL),
 );
@@ -88,18 +88,18 @@ export function SpiceMeter() {
       Flip.from(flipState.current, {
         targets: list.current.querySelectorAll("[data-dish]"),
         duration: 0.7,
-        ease: "chilli",
+        ease: "groove",
         // Not absolute: the list keeps its height while cards move, so the
         // page below never jumps.
         stagger: 0.03,
-        onEnter: (els) => gsap.fromTo(els, { opacity: 0, scale: 0.8, y: 20 }, { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: "chilli", stagger: 0.04, clearProps: "opacity,transform" }),
+        onEnter: (els) => gsap.fromTo(els, { opacity: 0, scale: 0.8, y: 20 }, { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: "groove", stagger: 0.04, clearProps: "opacity,transform" }),
         onLeave: (els) => gsap.to(els, { opacity: 0, scale: 0.8, duration: 0.3 }),
       });
     }
     flipState.current = null;
     if (reduced || !root.current) return;
 
-    if (!needleDrag.current?.active()) gsap.to(needle.current, { rotation: ANGLES[level], duration: 0.6, ease: "chilli", overwrite: "auto" });
+    if (!needleDrag.current?.active()) gsap.to(needle.current, { rotation: ANGLES[level], duration: 0.6, ease: "groove", overwrite: "auto" });
     gsap.to("[data-meter-title]", { duration: 0.8, scrambleText: { text: LEVELS[level].headline, chars: "मिर्चXO#", speed: 0.6 } });
     gsap.to(root.current, { "--heat": LEVELS[level].color, duration: 0.6 });
 
@@ -152,8 +152,8 @@ export function SpiceMeter() {
               );
             })}
             <g ref={needle} data-cursor="Drag" className="cursor-grab">
-              <path d="M200,200 L196,70 Q200,52 204,70 Z" fill="#19130f" />
-              <circle cx="200" cy="200" r="22" fill="#19130f" />
+              <path d="M200,200 L196,70 Q200,52 204,70 Z" fill="#1a1018" />
+              <circle cx="200" cy="200" r="22" fill="#1a1018" />
               <circle cx="200" cy="200" r="9" fill="var(--heat)" />
               {/* A generous invisible handle for fingers. */}
               <rect x="170" y="40" width="60" height="170" fill="transparent" />
@@ -162,7 +162,7 @@ export function SpiceMeter() {
           <div className="pointer-events-none absolute top-1/2 left-1/2" aria-hidden="true">
             {Array.from({ length: 14 }, (_, i) => (
               <span key={i} data-flame className="absolute opacity-0">
-                <ChilliMark className="h-8 w-8" />
+                <ChilliIcon className="h-8 w-8" />
               </span>
             ))}
           </div>
@@ -219,13 +219,13 @@ export function SpiceMeter() {
                 </span>
                 <span className="flex shrink-0" aria-label={`${d.heat + 1} of 4 chillies`}>
                   {Array.from({ length: d.heat + 1 }, (_, k) => (
-                    <ChilliMark key={k} className="-ml-1.5 h-6 w-6" />
+                    <ChilliIcon key={k} className="-ml-1.5 h-6 w-6" />
                   ))}
                 </span>
               </li>
             ))}
           </ul>
-          <p className="mt-6 text-xs text-muted">Our own rough guide to the menu. Ask your server about any dish.</p>
+          <p className="mt-6 text-xs text-muted">Our own rough guide to the menu. Tell the kitchen if you want it milder or hotter.</p>
         </div>
       </div>
     </section>

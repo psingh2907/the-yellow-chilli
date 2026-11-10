@@ -17,7 +17,7 @@ export function OpenStatus({ className }: { className?: string }) {
 
   return (
     <span className={cn("inline-flex items-center gap-2", className)}>
-      <span className={cn("h-2 w-2 rounded-full", status ? (status.open ? "bg-leaf shadow-[0_0_0_4px_rgba(63,143,79,0.25)]" : "bg-chilli") : "bg-mist")} />
+      <span className={cn("h-2 w-2 rounded-full", status ? (status.open ? "bg-leaf shadow-[0_0_0_4px_rgba(47,158,87,0.25)]" : "bg-rose") : "bg-mist")} />
       {/* Server render shows the hours; the live status replaces it after hydration. */}
       {status ? status.label : `Daily ${hoursText}`}
     </span>

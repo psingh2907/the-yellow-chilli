@@ -1,33 +1,36 @@
-# Owner checklist: The Yellow Chilli, Satna
+# Owner checklist: Veerji's Cafe Club & Restaurant, Satna
 
-Everything on the site came from public listings (Google Maps, Zomato, TripAdvisor, Justdial, theyellowchilli.com) in October 2026. These items need the owner's confirmation before launch.
+Everything on the site came from public listings (Google Maps, JustDial, Zomato, Instagram, Wanderboat) in October 2026. These items need the owner's confirmation before launch. Background is in `docs/research.md`.
 
 ## Must confirm
 
-- [ ] **Brand permission.** The site uses "The Yellow Chilli" name, "Master Chef Sanjeev Kapoor's" and the brand line "Redefining Indian food". Confirm SK Restaurants' franchise guidelines allow this outlet's own website, and whether the official logo must be used instead of our drawn wordmark.
-- [ ] **Main phone and WhatsApp number.** Listings show five numbers. The site uses **+91 93290 62819** (Zomato and TripAdvisor) for calls and WhatsApp. Others seen: 076722 96777 (Google), 97540 47000 (brand site), 76722 96888 (magicpin), 91798 36797 (Zomato). Set the real ones in `src/data/business.ts`.
-- [ ] **Hours.** Google says 11:30 am – 11:30 pm daily; magicpin says 12 – 10:30 pm.
-- [ ] **Banquet capacity.** The site says "400 guests". This comes from a single review about a function of about 400 people.
-- [ ] **Menu and prices.** Transcribed from Zomato (delivery prices). A few dish names were unclear on the listing ("Murgh Survedaar", "Harippa Paneer Tikka") and are shown as listed. Seasonal sections (Holi, Monsoon, Summer, Food Festival) may be out of date.
-- [ ] **Dish descriptions.** Short descriptions were written by us (e.g. Shaam Savera: spinach koftas with a paneer heart in makhani gravy). Check each signature dish.
+- [ ] **Name and logo.** The site uses "Veerji's" with a full name of "Veerji's Cafe Club & Restaurant" (Google says "Veerji cafe club & restaurant", Zomato and JustDial say "Veerji's Restaurant"). The mic mark and wordmark are ours; swap in a real logo if there is one.
+- [ ] **Using Veerji's name.** The site names the owner, Adityaveer Singh ("Veerji"), as the live singer. Confirm he's happy with that.
+- [ ] **Main phone and WhatsApp number.** The site uses **088188 88385** (Google, Instagram) for calls and WhatsApp. Others seen: 89825 45800 and 87701 89646 (Instagram bio), 95844 39543 (Zomato, also Bikaner by Veerji's). Set the real ones in `src/data/business.ts`.
+- [ ] **Hours.** The site says 11 am – 11 pm, every day.
+- [ ] **Live music schedule.** The site says live music is "usually on in the evenings" and puts it at about 9 pm on the home page setlist. Which evenings, and from what time? Can guests request songs in advance?
+- [ ] **Pure veg.** The menu is all vegetarian and the site says "pure veg" / "100% veg". Google's listing also tags alcohol and cocktails; the site makes no alcohol claims.
+- [ ] **Menu and prices.** Transcribed from Zomato (₹199-style prices). JustDial shows most prices ₹1 higher.
+- [ ] **Dish notes.** Thali and sizzler contents come from Zomato. Other short descriptions are ours (e.g. Dahi Sholey, Veg Kothe, Paneer Pardanashi). Check them, especially the VRJ specials, which have no description anywhere.
 - [ ] **Heat levels** on the Spice-o-meter and menu are our estimates.
+- [ ] **Party details.** The booking form allows 4–150 guests. What do the private room and the full floor hold? Are decorations or cakes arranged in-house?
 
 ## Should confirm
 
-- [ ] Rooms: a few reviews mention rooms. The site doesn't mention them; add if offered.
-- [ ] Walk-ins welcome / reservations recommended (Visit page FAQ).
-- [ ] Directions text: station → Panna Naka → Panna road (NH-75) → near Peptech City.
-- [ ] Email `tyc.satna@gmail.com` (from a directory listing).
-- [ ] Instagram account for the Satna outlet (none confirmed; `@theyellowchilli.ixd` appears to be another branch).
+- [ ] **Bikaner by Veerji's** (Gali No. 16, Rajendra Nagar, 095844 39543): the Visit page and party form feature it as a sister venue. The same address used to be "Bikaner Express"; the site doesn't mention that name. Confirm how it should be described.
+- [ ] Parking: Google lists a free parking lot and free street parking. The site says "free parking nearby".
+- [ ] Directions text: Satna Junction → Railway Station Road → R.S Tower, near Circuit House Chowk (1.1 km, about 4 minutes).
+- [ ] Catering, Wi-Fi, kids' menu and high chairs come from Google's attribute list.
+- [ ] Email address for the privacy page (none found; the site uses the phone and Instagram).
 
 ## To replace
 
-- [ ] **Photos.** All dishes, banquet "moments" and the 3D gallery use drawn illustrations. Real photos of signature dishes, the dining room, the banquet hall and the storefront will replace them.
-- [ ] Review themes on the home page are our own summary of public Google reviews. With permission, real quotes from guests can be used instead.
+- [ ] **Photos.** All dishes, party "moments" and the 3D gallery use drawn illustrations. Real photos of the room with the stage, live music nights, signature dishes, party set-ups and the R.S Tower entrance will replace them.
+- [ ] Review themes on the home page are our own summary of public Google and JustDial reviews. With permission, real quotes from guests can be used instead.
 
 ## Launch
 
 - [ ] Set `NEXT_PUBLIC_PROTOTYPE_MODE=false` (removes the preview strip, allows search indexing).
 - [ ] Set `NEXT_PUBLIC_SITE_URL` to the real domain.
 - [ ] Optional: `NEXT_PUBLIC_GA_ID` for Google Analytics.
-- [ ] Claim the TripAdvisor listing (unclaimed, 0 reviews) and fix its broken website link (`theyellowchilli.me`).
+- [ ] Claim the Google listing's "Add website" slot and the JustDial listing ("Claim this business", "Add Website") and point both at the new site.
